@@ -1,0 +1,14 @@
+.search {
+    padding: 2rem 3rem 2rem 3rem !important;
+    display: flex;
+    align-items: center;
+}
+
+.table-container {
+    display: flex !important;
+    padding: 0 3rem 0 3rem;
+}
+
+.table-header {
+    padding: 2rem 1rem 1rem 1rem;
+}

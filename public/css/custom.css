@@ -11,3 +11,22 @@
     margin-left: 1rem;
     margin-right: 1rem;
 }
+
+.highlight-color {
+    color: '#5395c9';
+}
+
+.text-center {
+    text-align: center;
+}
+
+.table-footer {
+    padding: 1rem 0 1rem 0 !important;
+    text-align: center !important;
+    color: white !important;
+}
+
+.table-footer:hover {
+    color: #5395c9 !important;
+    text-decoration: none !important;
+}

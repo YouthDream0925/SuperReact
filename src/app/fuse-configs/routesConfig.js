@@ -4,6 +4,7 @@ import FuseUtils from '@fuse/utils';
 import FuseLoading from '@fuse/core/FuseLoading';
 import Error404Page from 'app/main/404/Error404Page';
 
+import ExploreConfig from 'app/main/Explorer/ExplorerConfig'
 import HomeConfig from 'app/main/Home/HomeConfig';
 import DashboardConfig from 'app/main/Dashboard/DashboardConfig';
 import StoreboardConfig from 'app/main/Storeboard/StoreboardConfig';
@@ -14,6 +15,7 @@ import ECommerceAppConfig from 'app/main/e-commerce/ECommerceAppConfig';
 
 const routeConfigs = 
 [
+  ExploreConfig,
   HomeConfig,
   DashboardConfig,
   StoreboardConfig,
@@ -28,16 +30,6 @@ const routes = [
   // ...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
   // The individual route configs which has auth option won't be overridden.
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs, null),
-  {
-    path: '/',
-    exact: true,
-    component: () => <Redirect to="/home" />,
-  },
-  {
-    path: '/loading',
-    exact: true,
-    component: () => <FuseLoading />,
-  },
   {
     path: '/404',
     component: () => <Error404Page />,
