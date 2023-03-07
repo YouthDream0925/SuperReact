@@ -6,7 +6,7 @@ const settingsConfig = {
         display: true
       },
       footer: {
-        display: true
+        display: false
       },
     }, // checkout default layout configs at app/fuse-layouts for example  app/fuse-layouts/layout1/Layout1Config.js
   },

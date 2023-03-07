@@ -1,0 +1,40 @@
+.address-header {
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.address-info {
+    display: flex;
+    padding: 0 3rem 3rem 3rem;
+}
+
+.address-body {
+
+}
+
+.address-has {
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+.address-container {
+    display: flex;
+    align-items: center;
+}
+
+.icon-size {
+    font-size: 14px;
+    margin-right: 0.5rem;
+}
+
+.transactions {
+    padding: 0 3rem;
+}
+
+.contracts {
+    padding: 0 3rem;
+}

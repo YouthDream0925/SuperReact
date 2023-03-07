@@ -9,6 +9,7 @@ import BlocksConfig from 'app/main/Blocks/BlocksConfig';
 import BlockDetailConfig from 'app/main/BlcokDetail/BlockDetailConfig';
 import TransactionsConfig from 'app/main/Transactions/TransactionsConfig';
 import TransactionDetailConfig from 'app/main/TransactionDetail/TransactionDetailConfig';
+import AddressConfig from 'app/main/Address/AddressConfig';
 import LoginPageConfig from 'app/main/login/LoginPageConfig';
 import RegisterPageConfig from 'app/main/register/RegisterPageConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
@@ -20,6 +21,7 @@ const routeConfigs =
   BlockDetailConfig,
   TransactionsConfig,
   TransactionDetailConfig,
+  AddressConfig,
   LoginPageConfig,
   RegisterPageConfig,
   LogoutConfig
