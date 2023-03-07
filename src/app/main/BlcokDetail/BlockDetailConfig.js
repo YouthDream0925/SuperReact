@@ -8,7 +8,7 @@ const BlockDetailConfig = {
   },
   routes: [
     {
-      path: '/blocks/:blockId',
+      path: '/detail',
       component: BlockDetail,
     },
   ],
