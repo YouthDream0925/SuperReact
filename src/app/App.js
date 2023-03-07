@@ -19,7 +19,7 @@ const App = () => {
   return (
     <Auth>
       <Router history={history}>
-        <FuseAuthorization>
+        {/* <FuseAuthorization> */}
           <FuseTheme>
             <SnackbarProvider
               maxSnack={5}
@@ -34,7 +34,7 @@ const App = () => {
               <FuseLayout />
             </SnackbarProvider>
           </FuseTheme>
-        </FuseAuthorization>
+        {/* </FuseAuthorization> */}
       </Router>
     </Auth>
   );
