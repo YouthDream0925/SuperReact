@@ -14,3 +14,16 @@
     color: #5395c9;
     font-weight: 700;
 }
+
+.block-selector {
+    text-align: center !important;
+    color: #5395c9 !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    background-color: transparent;
+    padding: 0;
+}
+
+.block-selector:hover {
+    background-color: transparent;
+}

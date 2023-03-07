@@ -18,6 +18,8 @@ import { TableHead } from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -218,7 +220,15 @@ export default function CustomPaginationActionsTable() {
           ).map((row) => (
             <TableRow key={row.block}>
               <TableCell style={{ width: 80 }} align="left">
-                <span className="highlight-color">{row.block}</span>
+                <Button
+                    component={Link}
+                    to={"/blocks/" + row.block}
+                    className="block-selector"
+                    variant="contained"
+                    color="primary"
+                    >
+                    <span className="block-selector hidden sm:flex">{row.block}</span>
+                </Button>
               </TableCell>
               <TableCell style={{ width: 100 }} align="left">
                 {row.age}

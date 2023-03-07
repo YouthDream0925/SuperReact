@@ -12,6 +12,7 @@ import Icon from '@material-ui/core/Icon';
 import Paper from '@material-ui/core/Paper';
 import Element from './components/Element';
 import { DataGrid } from '@material-ui/data-grid';
+import Button from '@material-ui/core/Button';
 import CustomizedTables from './components/CustomizedTables';
 // import Link from '@material-ui/core/Link';
 import { Link } from 'react-router-dom';
@@ -130,31 +131,30 @@ export default function Explorer() {
                     <div className='table-header'>LAST BLOCKS</div>
                     <CustomizedTables />
                     <div className='table-footer'>
-                        <Link
-                            to='/blocks'
-                            component="a"
-                            variant="body2"
-                            className='link-selector'
+                        <Button
+                            component={Link}
+                            to="/blocks"
+                            className="whitespace-nowrap"
+                            variant="contained"
+                            color="primary"
                             >
-                            VIEW ALL BLOCKS
-                        </Link>
+                            <span className="hidden sm:flex">VIEW ALL BLOCKS</span>
+                        </Button>
                     </div>
                 </div>
                 <div style={{ width: '50%', marginLeft: '0.75rem' }}>
                     <div className='table-header'>LAST TRANSACTIONS</div>
                     <CustomizedTables />
                     <div className='table-footer'>
-                        <Link
-                            to='/transactions'
-                            component="a"
-                            variant="body2"
-                            className='link-selector'
-                            onClick={() => {
-                                console.info("I'm a button.");
-                            }}
+                        <Button
+                            component={Link}
+                            to="/blocks"
+                            className="whitespace-nowrap"
+                            variant="contained"
+                            color="primary"
                             >
-                            VIEW ALL TRANSACIONS
-                        </Link>
+                            <span className="hidden sm:flex">VIEW ALL TRANSACIONS</span>
+                        </Button>
                     </div>                    
                 </div>
             </div>
