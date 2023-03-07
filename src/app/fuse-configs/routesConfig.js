@@ -4,25 +4,19 @@ import FuseUtils from '@fuse/utils';
 import FuseLoading from '@fuse/core/FuseLoading';
 import Error404Page from 'app/main/404/Error404Page';
 
-import ExploreConfig from 'app/main/Explorer/ExplorerConfig'
-import HomeConfig from 'app/main/Home/HomeConfig';
-import DashboardConfig from 'app/main/Dashboard/DashboardConfig';
-import StoreboardConfig from 'app/main/Storeboard/StoreboardConfig';
+import ExploreConfig from 'app/main/Explorer/ExplorerConfig';
+import BlocksConfig from 'app/main/Blocks/BlocksConfig';
 import LoginPageConfig from 'app/main/login/LoginPageConfig';
 import RegisterPageConfig from 'app/main/register/RegisterPageConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
-import ECommerceAppConfig from 'app/main/e-commerce/ECommerceAppConfig';
 
 const routeConfigs = 
 [
   ExploreConfig,
-  HomeConfig,
-  DashboardConfig,
-  StoreboardConfig,
+  BlocksConfig,
   LoginPageConfig,
   RegisterPageConfig,
-  LogoutConfig,
-  ECommerceAppConfig,
+  LogoutConfig
 ];
 
 const routes = [

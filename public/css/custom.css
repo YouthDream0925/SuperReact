@@ -16,17 +16,17 @@
     color: '#5395c9';
 }
 
-.text-center {
+.table-footer {
     text-align: center;
+    padding: 1rem 0 1rem 0 !important;
 }
 
-.table-footer {
-    padding: 1rem 0 1rem 0 !important;
+.link-selector {
     text-align: center !important;
     color: white !important;
 }
 
-.table-footer:hover {
+.link-selector:hover {
     color: #5395c9 !important;
     text-decoration: none !important;
 }

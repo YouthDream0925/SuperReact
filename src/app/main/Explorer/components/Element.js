@@ -4,14 +4,16 @@ import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 
 function Element(props) {
-  const data = props.value;
+  const data = props.data;
+  let ICON = null;
+  if(data.icon != '') {
+    ICON = <IconButton className="w-40 h-40"><Icon>{data.icon}</Icon></IconButton>;
+  }
   console.log(data);
   return (
     <>
         <div className="gas">
-            <IconButton className="w-40 h-40">
-                <Icon>{data.icon}</Icon>
-            </IconButton>
+            {ICON}
             <div>
                 {data.key}
                 <br/>

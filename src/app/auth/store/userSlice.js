@@ -88,7 +88,7 @@ export const setUserData = (user) => async (dispatch, getState) => {
     }
   };
   history.location.state = {
-    redirectUrl: '/storeboard' // for example 'apps/academy'
+    redirectUrl: '/explorer' // for example 'apps/academy'
   };
 
   /*

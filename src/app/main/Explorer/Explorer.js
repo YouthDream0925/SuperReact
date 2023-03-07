@@ -13,7 +13,8 @@ import Paper from '@material-ui/core/Paper';
 import Element from './components/Element';
 import { DataGrid } from '@material-ui/data-grid';
 import CustomizedTables from './components/CustomizedTables';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import './Explorer.css';
 
 const BootstrapInput = withStyles((theme) => ({
@@ -120,7 +121,7 @@ export default function Explorer() {
                 </div>
                 {
                     data.map((element) => (
-                        <Element value = {element} />
+                        <Element data = {element} />
                     ))
                 }
             </div>
@@ -128,34 +129,33 @@ export default function Explorer() {
                 <div style={{ width: '50%', marginRight: '0.75rem' }}>
                     <div className='table-header'>LAST BLOCKS</div>
                     <CustomizedTables />
-                    <p className='text-center'>
+                    <div className='table-footer'>
                         <Link
-                            component="button"
+                            to='/blocks'
+                            component="a"
                             variant="body2"
-                            className='table-footer'
-                            onClick={() => {
-                                console.info("I'm a button.");
-                            }}
+                            className='link-selector'
                             >
                             VIEW ALL BLOCKS
                         </Link>
-                    </p>
+                    </div>
                 </div>
                 <div style={{ width: '50%', marginLeft: '0.75rem' }}>
                     <div className='table-header'>LAST TRANSACTIONS</div>
                     <CustomizedTables />
-                    <p className='text-center'>
+                    <div className='table-footer'>
                         <Link
-                            component="button"
+                            to='/transactions'
+                            component="a"
                             variant="body2"
-                            className='table-footer'
+                            className='link-selector'
                             onClick={() => {
                                 console.info("I'm a button.");
                             }}
                             >
                             VIEW ALL TRANSACIONS
                         </Link>
-                    </p>                    
+                    </div>                    
                 </div>
             </div>
         </>

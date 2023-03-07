@@ -1,0 +1,16 @@
+.blocks-header {
+    padding: 4rem 3rem 3rem 3rem !important;
+    display: flex;
+    align-items: center;
+}
+
+.blocks-body {
+    padding: 0 3rem 2rem 3rem !important;
+    display: flex;
+    align-items: center;
+}
+
+.highlight-color {
+    color: #5395c9;
+    font-weight: 700;
+}
