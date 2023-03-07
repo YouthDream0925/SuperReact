@@ -148,7 +148,7 @@ export default function Explorer() {
                     <div className='table-footer'>
                         <Button
                             component={Link}
-                            to="/blocks"
+                            to="/transactions"
                             className="whitespace-nowrap"
                             variant="contained"
                             color="primary"
