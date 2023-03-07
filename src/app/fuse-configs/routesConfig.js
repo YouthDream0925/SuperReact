@@ -8,6 +8,7 @@ import ExploreConfig from 'app/main/Explorer/ExplorerConfig';
 import BlocksConfig from 'app/main/Blocks/BlocksConfig';
 import BlockDetailConfig from 'app/main/BlcokDetail/BlockDetailConfig';
 import TransactionsConfig from 'app/main/Transactions/TransactionsConfig';
+import TransactionDetailConfig from 'app/main/TransactionDetail/TransactionDetailConfig';
 import LoginPageConfig from 'app/main/login/LoginPageConfig';
 import RegisterPageConfig from 'app/main/register/RegisterPageConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
@@ -18,6 +19,7 @@ const routeConfigs =
   BlocksConfig,
   BlockDetailConfig,
   TransactionsConfig,
+  TransactionDetailConfig,
   LoginPageConfig,
   RegisterPageConfig,
   LogoutConfig

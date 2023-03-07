@@ -229,7 +229,7 @@ export default function CustomPaginationActionsTable() {
               <TableCell style={{ width: 80 }} align="left">
                 <Button
                     component={Link}
-                    to="/detail"
+                    to="/txn_detail"
                     className="block-selector"
                     variant="contained"
                     color="primary"
