@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import './TransactionDetail.css';
+import api from "../../../utils/api.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
