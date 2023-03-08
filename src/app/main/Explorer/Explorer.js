@@ -13,7 +13,8 @@ import Paper from '@material-ui/core/Paper';
 import Element from './components/Element';
 import { DataGrid } from '@material-ui/data-grid';
 import Button from '@material-ui/core/Button';
-import CustomizedTables from './components/CustomizedTables';
+import CustomizedTablesForBlocks from './components/CustomizedTablesForBlocks';
+import CustomizedTablesForTransactions from './components/CustomizedTablesForTransactions';
 // import Link from '@material-ui/core/Link';
 import { Link } from 'react-router-dom';
 import './Explorer.css';
@@ -92,7 +93,7 @@ export default function Explorer() {
                     <Select
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
-                        value={age}
+                        value={0}
                         onChange={handleChange}
                         style={{ width: '120px' }}
                         input={<BootstrapInput />}
@@ -129,7 +130,7 @@ export default function Explorer() {
             <div className="table-container">
                 <div style={{ width: '50%', marginRight: '0.75rem' }}>
                     <div className='table-header'>LAST BLOCKS</div>
-                    <CustomizedTables />
+                    <CustomizedTablesForBlocks />
                     <div className='table-footer'>
                         <Button
                             component={Link}
@@ -144,7 +145,7 @@ export default function Explorer() {
                 </div>
                 <div style={{ width: '50%', marginLeft: '0.75rem' }}>
                     <div className='table-header'>LAST TRANSACTIONS</div>
-                    <CustomizedTables />
+                    <CustomizedTablesForTransactions />
                     <div className='table-footer'>
                         <Button
                             component={Link}
