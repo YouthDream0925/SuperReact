@@ -1,4 +1,5 @@
 import React from 'react';
+import {useState, useEffect} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -24,17 +25,30 @@ function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-export default function TransactionDetail() {
-  const classes = useStyles();
+export default function TransactionDetail(props) {
+    const classes = useStyles();
+    const txhash = props.match.params.transactionId;
+    const [txDetail, setTxDetail] = useState({
+        gasLimitAndUsage: {},
+        gasFees: {},
+        otherType: {},
+        burntFeeAndSavingFee: {},
+    });
+
+    useEffect(async () => {
+        const tx = (await api.get(`/getTransaction/${txhash}`)).data;
+        setTxDetail(tx);
+        console.log(tx);
+    }, [])
 
   return (
     <>
         <div className='page-header d-flex'>
             <strong>Transaction Details</strong>
-            <div style={{marginLeft: '1rem'}}>
+            {/* <div style={{marginLeft: '1rem'}}>
                 <IconButton className="w-10 h-10"><Icon className='icon-font-size'>arrow_back_ios</Icon></IconButton>
                 <IconButton className="w-10 h-10"><Icon className='icon-font-size'>arrow_forward_ios</Icon></IconButton>
-            </div>
+            </div> */}
         </div>
         <div className='page-body'>
             <div className={classes.root}>
@@ -46,7 +60,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            0xcC748AC405c7C4212a304de55657240A034a7B88
+                            {txhash}
                         </div>
                     </ListItem>
                     <ListItem>
@@ -68,7 +82,7 @@ export default function TransactionDetail() {
                         <div className='space'></div>
                         <div className='item-box'>
                             <IconButton className="w-10 h-10"><Icon className='icon-font-size'>schedule</Icon></IconButton>
-                            16763676
+                            {txDetail.block}
                         </div>
                     </ListItem>
                     <ListItem>
@@ -79,20 +93,7 @@ export default function TransactionDetail() {
                         <div className='space'></div>
                         <div className='item-box'>
                             <IconButton className="w-10 h-10"><Icon className='icon-font-size'>schedule</Icon></IconButton>
-                            5 mins ago (Mar-05-2023 05:27:47 PM +UTC)
-                        </div>
-                    </ListItem>
-                </List>
-                <Divider />
-                <List component="nav" aria-label="main mailbox folders">
-                    <ListItem>
-                        <div className='item-box'>
-                            <Icon className='mr-1'>help_outline</Icon>
-                            Sponsored:
-                        </div>
-                        <div className='space'></div>
-                        <div className='item-box'>
-                            
+                            {txDetail.timestamp}
                         </div>
                     </ListItem>
                 </List>
@@ -105,7 +106,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            0xcC748AC405c7C4212a304de55657240A034a7B88
+                            {txDetail.from}
                         </div>
                     </ListItem>
                     <ListItem>
@@ -115,7 +116,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            0xcC748AC405c7C4212a304de55657240A034a7B88
+                            {txDetail.to}
                         </div>
                     </ListItem>
                 </List>
@@ -128,7 +129,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            0.0238437572392342343 ETH ($95.39)
+                            {txDetail.value} wei
                         </div>
                     </ListItem>
                     <ListItem>
@@ -138,7 +139,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            0.0018238347393 ETH ($1.63)
+                            {txDetail.transactionFee} wei
                         </div>
                     </ListItem>
                     <ListItem>
@@ -148,7 +149,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            49.2342114231234 Gwei (0.0039348373838484 ETH)
+                            {txDetail.gasPrice} wei
                         </div>
                     </ListItem>
                 </List>
@@ -161,7 +162,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            21,000 | 21,000 (100%)
+                            {txDetail.gasLimitAndUsage.gasLimit} | {txDetail.gasLimitAndUsage.gasUsed} ({txDetail.gasLimitAndUsage.gasUsed / txDetail.gasLimitAndUsage.gasLimit * 100}%)
                         </div>
                     </ListItem>
                     <ListItem>
@@ -171,7 +172,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            Base: 49.12314221423 Gwei | Max: 49.1231434234 Gwei | Max Priority: 0 ETH
+                            Base: {txDetail.gasFees.base} wei | Max: {txDetail.gasFees.Max} gwei | Max Priority: {txDetail.gasFees.MaxPriority} wei
                         </div>
                     </ListItem>
                     <ListItem>
@@ -181,7 +182,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            Burnt: 0.002342348834354234 ETH ($1.63), Txn Savings: 0 ETH ($0.00)
+                            Burnt: {txDetail.burntFeeAndSavingFee.burnt} wei, Txn Savings: {txDetail.burntFeeAndSavingFee.saving} wei
                         </div>
                     </ListItem>
                 </List>
@@ -194,7 +195,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            Txn Type: 2 (BP-1559), Nonce: 255429, Position in Block: 117
+                            Txn Type: {txDetail.otherType.txnType} (BP-1559), Nonce: {txDetail.otherType.nonce}, Position in Block: {txDetail.otherType.position}
                         </div>
                     </ListItem>
                     <ListItem>
@@ -204,7 +205,7 @@ export default function TransactionDetail() {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            9x
+                            {txDetail.inputData}
                         </div>
                     </ListItem>
                     <ListItem>
