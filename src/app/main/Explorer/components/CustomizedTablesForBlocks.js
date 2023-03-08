@@ -10,6 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import api from "../../../../utils/api.js";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -67,7 +69,15 @@ export default function CustomizedTablesForBlocks() {
                 <div style={{ display: 'flex', alignItems: 'center'}}>
                   <Icon>search</Icon>
                   <div style={{ marginLeft: '1rem' }}>
-                    <p style={{color: '#5395c9'}}>{row.block}</p> 
+                    <Button
+                        component={Link}
+                        to={`/blocks/${row.block}`}
+                        className="block-selector"
+                        variant="contained"
+                        color="primary"
+                        >
+                        <span className="block-selector hidden sm:flex">{row.block}</span>
+                    </Button>
                     <p>{row.timeStamp}s ago</p> 
                   </div>
                 </div>

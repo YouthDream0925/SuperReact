@@ -14,6 +14,8 @@ import DoneIcon from '@material-ui/icons/Done';
 import CustomPaginationActionsTable from './components/CustomPaginationActionsTable';
 import Contract from './components/Contract';
 import { useEffect, useState, useMemo } from 'react';
+import api from "../../../utils/api.js";
+import {ethers} from "ethers";
 import './Address.css';
 
 const useStyles = makeStyles({
@@ -49,9 +51,13 @@ function needsToBeOpened() {
   return true;
 }
 
-export default function Address() {
+export default function Address(props) {
+  const hash = props.match.params.hash;
   const classes = useStyles();
   const classes1 = useStyles1();
+  const [address, setAddress] = useState({
+    txs: [],
+  });
   const bull = <span className={classes.bullet}>•</span>;
 
   // const [show_transactions, show_contracts] = useState(() => needsToBeOpened());
@@ -74,11 +80,11 @@ export default function Address() {
     setAddressTab(false);
   }
 
-  useEffect(() => {
-    console.log('addressTab is changed');
-    console.log(addressTab);
-    // eslint-disable-next-line
-	}, [addressTab]);
+  useEffect(async () => {
+    const temp = await api.get(`/getAddress/${hash}`);
+    console.log(temp);
+    setAddress(temp.data);
+	}, []);
 
   return useMemo(
     () => (
@@ -86,7 +92,7 @@ export default function Address() {
         <div className="address-header">
             <IconButton className="w-40 h-40"><Icon>search</Icon></IconButton>
             <div className="address-container">
-                Contract <span className='address-has'>0xcC748AC405c7C4212a304de55657240A034a7B88</span>
+                {address.type == 'address' ? 'Address' : 'Contract' } <span className='address-has'>{hash}</span>
                 <div style={{marginLeft: '1rem'}}>
                     <IconButton className="w-40 h-40"><Icon>copy</Icon></IconButton>
                     <IconButton className="w-40 h-40"><Icon>border_all</Icon></IconButton>
@@ -103,26 +109,37 @@ export default function Address() {
                 ETH BALANCE
               </Typography>
               <Typography className="address-container" variant="body2" component="p">
-                <Icon className='icon-size'>copy</Icon> 0.00724325 ETH
+                <Icon className='icon-size'>copy</Icon> {`${address.ethBalance}`} ETH
               </Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.root} style={{ marginLeft: '1rem' }} variant="outlined">
-            <CardContent>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                CONTRACT CREATOR
+              <Typography style={{marginTop: '1rem'}}className={classes.title} color="textSecondary" gutterBottom>
+                NONCE
               </Typography>
               <Typography className={classes.pos} color="textSecondary">
-                0x3F32e352..0932d323uw at txn 0xcC748AC405c7C4212a304de55657240A034a7B88
-              </Typography>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                TOKEN TRACKER
-              </Typography>
-              <Typography className="address-container" variant="body2" component="p">
-                <Icon className='icon-size'>copy</Icon> GCL (HEC)
+                {address.nonce}
               </Typography>
             </CardContent>
           </Card>
+          {
+            address.type == 'contract' ? 
+              <Card className={classes.root} style={{ marginLeft: '1rem' }} variant="outlined">
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    CONTRACT CREATOR
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    {address.creator}
+                  </Typography>
+                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    TOKEN TRACKER
+                  </Typography>
+                  <Typography className="address-container" variant="body2" component="p">
+                    <Icon className='icon-size'>copy</Icon> GCE (GCE)
+                  </Typography>
+                </CardContent>
+              </Card>
+            :
+            <div></div>
+          }          
         </div>
         <div className="address-body">
           <div className={classes1.root}>
@@ -154,6 +171,6 @@ export default function Address() {
         </div>
       </>
     ),
-    [addressTab]
+    [addressTab, address]
   );
 }

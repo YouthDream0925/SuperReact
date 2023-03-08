@@ -8,7 +8,7 @@ const AddressConfig = {
   },
   routes: [
     {
-      path: '/address',
+      path: '/address/:hash',
       component: Address,
     },
   ],

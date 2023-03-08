@@ -10,6 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import api from "../../../../utils/api.js";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -75,7 +77,16 @@ export default function CustomizedTablesForTransactions() {
               <StyledTableCell align="left">
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <p style={{ marginRight: '0.5rem'}}>From </p><span style={{color: '#5395c9'}}>{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from)}`}</span>
+                    <p style={{ marginRight: '0.5rem'}}>From </p>
+                    <Button
+                        component={Link}
+                        to={`/address/${row.from}`}
+                        className="block-selector"
+                        variant="contained"
+                        color="primary"
+                        >
+                        <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from)}`}</span>
+                    </Button>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
                     <p style={{marginRight: '0.5rem'}}>To</p><span style={{color: '#5395c9', marginLeft: '0.5rem'}}>{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to)}`}</span>

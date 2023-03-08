@@ -33,7 +33,7 @@ const routes = [
     component: () => <Error404Page />,
   },
   {
-    component: () => <Redirect to="/404" />,
+    component: () => <Redirect to="/explorer" />,
   },
 ];
 
