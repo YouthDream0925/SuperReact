@@ -6,9 +6,7 @@ import Error404Page from 'app/main/404/Error404Page';
 
 import ExploreConfig from 'app/main/Explorer/ExplorerConfig';
 import BlocksConfig from 'app/main/Blocks/BlocksConfig';
-import BlockDetailConfig from 'app/main/BlcokDetail/BlockDetailConfig';
 import TransactionsConfig from 'app/main/Transactions/TransactionsConfig';
-import TransactionDetailConfig from 'app/main/TransactionDetail/TransactionDetailConfig';
 import AddressConfig from 'app/main/Address/AddressConfig';
 import LoginPageConfig from 'app/main/login/LoginPageConfig';
 import RegisterPageConfig from 'app/main/register/RegisterPageConfig';
@@ -18,9 +16,7 @@ const routeConfigs =
 [
   ExploreConfig,
   BlocksConfig,
-  BlockDetailConfig,
   TransactionsConfig,
-  TransactionDetailConfig,
   AddressConfig,
   LoginPageConfig,
   RegisterPageConfig,

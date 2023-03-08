@@ -229,7 +229,7 @@ export default function CustomPaginationActionsTable() {
               <TableCell style={{ width: 80 }} align="left">
                 <Button
                     component={Link}
-                    to="/txn_detail"
+                    to={`/transactions/${row.hash}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"

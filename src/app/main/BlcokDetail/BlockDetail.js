@@ -23,7 +23,8 @@ function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-export default function BlockDetail() {
+export default function BlockDetail(props) {
+  console.log('1111111111111111111111111111', props.match.params.blockId);
   const classes = useStyles();
 
   return (
