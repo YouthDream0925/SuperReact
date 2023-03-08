@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -32,15 +33,6 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData('16763605', 'Block Hash', '0.16023 Eth'),
-  createData('16763605', 'Block Hash', '0.16023 Eth'),
-  createData('16763605', 'Block Hash', '0.16023 Eth'),
-  createData('16763605', 'Block Hash', '0.16023 Eth'),
-  createData('16763605', 'Block Hash', '0.16023 Eth'),
-  createData('16763605', 'Block Hash', '0.16023 Eth'),
-];
-
 const useStyles = makeStyles({
   table: {
     minWidth: '100%',
@@ -49,6 +41,19 @@ const useStyles = makeStyles({
 
 export default function CustomizedTables() {
   const classes = useStyles();
+
+  const [rows, setRows] = useState([
+    createData('16763605', 'Block Hash', '0.16023 Eth'),
+    createData('16763605', 'Block Hash', '0.16023 Eth'),
+    createData('16763605', 'Block Hash', '0.16023 Eth'),
+    createData('16763605', 'Block Hash', '0.16023 Eth'),
+    createData('16763605', 'Block Hash', '0.16023 Eth'),
+    createData('16763605', 'Block Hash', '0.16023 Eth'),
+  ]);
+
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <TableContainer component={Paper} style={{ borderRadius: '0'}}>
