@@ -9,7 +9,6 @@ function Element(props) {
   if(data.icon != '') {
     ICON = <IconButton className="w-40 h-40"><Icon>{data.icon}</Icon></IconButton>;
   }
-  console.log(data);
   return (
     <>
         <div className="gas">
