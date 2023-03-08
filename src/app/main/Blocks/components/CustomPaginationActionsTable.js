@@ -228,7 +228,7 @@ export default function CustomPaginationActionsTable(props) {
                 <TableCell style={{ width: 80 }} align="left">
                   <Button
                       component={Link}
-                      to="/detail"
+                      to={`/blocks/${row.block}`}
                       className="block-selector"
                       variant="contained"
                       color="primary"

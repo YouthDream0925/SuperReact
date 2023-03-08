@@ -1,4 +1,5 @@
 
+import TransactionDetail from '../TransactionDetail/TransactionDetail';
 import Transactions from './Transactions';
 
 const TransactionsConfig = {
@@ -8,6 +9,10 @@ const TransactionsConfig = {
     },
   },
   routes: [
+    {
+      path: '/transactions/:transactionId',
+      component: TransactionDetail,
+    },
     {
       path: '/transactions',
       component: Transactions,
