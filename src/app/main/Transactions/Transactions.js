@@ -9,7 +9,7 @@ export default function Transactions() {
                     <strong>Transactions</strong>
                 </div>
                 <div>
-                    <span className='block-id'>For Block 1673676</span>
+                    <span className='block-id'>For All Blocks</span>
                 </div>                 
             </div>
             <div className='page-body'>

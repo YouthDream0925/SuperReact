@@ -1,4 +1,5 @@
 import React from 'react';
+import {useState, useEffect} from "react";
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -20,6 +21,8 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import api from "../../../../utils/api.js";
+import {ethers} from "ethers";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -86,9 +89,6 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(hash, method, block, age, from, to, value, fee) {
-  return { hash, method, block, age, from, to, value, fee };
-}
 
 const columns = [
   { 
@@ -110,13 +110,13 @@ const columns = [
     align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: 'age',
-    label: 'Age',
-    minWidth: 160,
-    align: 'left',
-    format: (value) => value.toLocaleString('en-US'),
-  },
+  // {
+  //   id: 'age',
+  //   label: 'Age',
+  //   minWidth: 160,
+  //   align: 'left',
+  //   format: (value) => value.toLocaleString('en-US'),
+  // },
   {
     id: 'from',
     label: 'From',
@@ -147,41 +147,47 @@ const columns = [
   },
 ];
 
-const rows = [
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
 const useStyles2 = makeStyles({
   table: {
     minWidth: '100%',
   },
 });
 
+function createData(hash, method, block, from, to, value, fee) {
+  return { hash, method, block, from, to, value, fee };
+}
+
 export default function CustomPaginationActionsTable() {
   const classes = useStyles2();
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rows, setRows] = useState([]);
+
+  useEffect(async () => {
+    const responseData = (await api.get("/getAllTransactions")).data;
+    let rowsData = []
+    for(let i = 0; i < responseData.length ; ++ i) {
+      let method;
+      if(responseData[i].contractAddress != null)
+      {
+        method = "Contract Creation";
+      } else if(responseData[i].input == "0x" || responseData[i].input == "") {
+        method = "Transfer";
+      } else {
+        method = responseData[i].input.slice(0, 10);
+      }
+      rowsData.push(createData(
+        responseData[i].hash,
+        method,
+        responseData[i].blockNumber,
+        responseData[i].from,
+        responseData[i].from,
+        responseData[i].value,
+        ethers.BigNumber.from(responseData[i].effectiveGasPrice).mul(responseData[i].gasUsed).toString()
+      ));
+    }
+    setRows(rowsData);
+  }, []);
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -234,7 +240,7 @@ export default function CustomPaginationActionsTable() {
                     variant="contained"
                     color="primary"
                     >
-                    <span className="block-selector hidden sm:flex">{row.hash}</span>
+                    <span className="block-selector hidden sm:flex">{`${row.hash.slice(0, 5)}...${row.hash.slice(row.hash.length - 3, row.hash.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 100 }} align="left">
@@ -243,9 +249,9 @@ export default function CustomPaginationActionsTable() {
               <TableCell style={{ width: 40 }} align="left">
                 <span className="highlight-color">{row.block}</span>
               </TableCell>
-              <TableCell style={{ width: 180 }} align="left">
+              {/* <TableCell style={{ width: 180 }} align="left">
                 {row.age}
-              </TableCell>
+              </TableCell> */}
               <TableCell style={{ width: 160 }} align="left">
                 <Button
                     component={Link}
@@ -254,7 +260,7 @@ export default function CustomPaginationActionsTable() {
                     variant="contained"
                     color="primary"
                     >
-                    <span className="block-selector hidden sm:flex">{row.from}</span>
+                    <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
@@ -265,14 +271,14 @@ export default function CustomPaginationActionsTable() {
                     variant="contained"
                     color="primary"
                     >
-                    <span className="block-selector hidden sm:flex">{row.to}</span>
+                    <span className="block-selector hidden sm:flex">{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
-                {row.value}
+                {row.value} wei
               </TableCell>
               <TableCell style={{ width: 160 }} align="left">
-                {row.fee}
+                {row.fee} wei
               </TableCell>
             </TableRow>
           ))}
