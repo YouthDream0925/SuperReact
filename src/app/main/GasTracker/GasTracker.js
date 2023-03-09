@@ -5,6 +5,7 @@ import api from "../../../utils/api.js";
 import {ethers} from "ethers";
 import Tracker from './components/Tracker';
 import { makeStyles } from '@material-ui/core/styles';
+import Widget1 from './widgets/Widget1';
 
 const useStyles = makeStyles({
     root: {
@@ -27,9 +28,11 @@ const useStyles = makeStyles({
 export default function GasTracker() {
     const classes = useStyles();
     const [data, setData] = useState([]);
+    const [widget, setWidget] = useState({});
 
     useEffect(async () => {
         const getGasPrice = (await api.get(`/getGasPrice`)).data.gasPrice;
+        const getGasPrices = (await api.get(`/getLatestGasPrices`)).data;
         const temp = [
             {
                 icon: '',
@@ -59,7 +62,104 @@ export default function GasTracker() {
                 stringTwo: '$0.96 | ~ 30 secs'
             }
         ];
-        setData(temp);
+
+        const widget1 = {
+            id: 'widget1',
+            series: {          
+              Analytics: [
+                {
+                  name: 'Sales',
+                  data: getGasPrices,
+                  fill: 'start'
+                }
+              ]
+            },
+            options: {
+              chart: {
+                type: 'area',
+                height: '100%',
+                background: 'transparent',
+                toolbar: {
+                  show: false
+                },
+                zoom: {
+                  enabled: false
+                }
+              },
+              theme: {
+                mode: 'dark'
+              },
+              dataLabels: {
+                enabled: false
+              },
+              xaxis: {
+                categories: ['1', '2', '3'],
+                tooltip: {
+                  enabled: false
+                },
+                axisBorder: {
+                  show: false
+                }
+              },
+              yaxis: {
+                axisBorder: {
+                  show: false
+                }
+              },
+              markers: {
+                size: 1,
+                strokeWidth: 1.5,
+                strokeOpacity: 1,
+                strokeDashArray: 0,
+                fillOpacity: 1,
+                shape: 'circle',
+                radius: 2,
+                hover: {
+                  size: 5
+                }
+              },
+              fill: {
+                type: 'solid',
+                opacity: 0.7,
+                gradient: {
+                  shadeIntensity: 0.4,
+                  opacityFrom: 1,
+                  opacityTo: 0.5,
+                  stops: [30, 100, 100]
+                }
+              },
+              grid: {
+                show: true,
+                strokeDashArray: 1,
+                position: 'back',
+                xaxis: {
+                  lines: {
+                    show: true
+                  }
+                },
+                yaxis: {
+                  lines: {
+                    show: true
+                  }
+                },
+                padding: {
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0
+                }
+              },
+              stroke: {
+                show: true,
+                curve: 'smooth',
+                lineCap: 'butt',
+                width: 1.5,
+                dashArray: 0
+              }
+            }
+        };
+
+        setData(widget1);
     }, []);
 
     return (
@@ -71,6 +171,9 @@ export default function GasTracker() {
                     ))
                 }
             </div> 
+            <div style={{padding: '2rem'}}>
+                <Widget1 data={widget} />
+            </div>
         </>
     );
 }
