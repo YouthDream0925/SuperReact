@@ -30,3 +30,24 @@
     color: #5395c9 !important;
     text-decoration: none !important;
 }
+
+.emoticon-container {
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.emoticon-button {
+    text-align: center !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    background-color: transparent;
+    padding: 0;
+}
+
+.gas-tracker {
+    width: 100%;
+    display: flex;
+    padding: 2rem;
+}
