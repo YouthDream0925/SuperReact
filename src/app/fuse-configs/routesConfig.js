@@ -8,6 +8,7 @@ import ExploreConfig from 'app/main/Explorer/ExplorerConfig';
 import BlocksConfig from 'app/main/Blocks/BlocksConfig';
 import TransactionsConfig from 'app/main/Transactions/TransactionsConfig';
 import AddressConfig from 'app/main/Address/AddressConfig';
+import GasTrackerConfig from 'app/main/GasTracker/GasTrackerConfig';
 import LoginPageConfig from 'app/main/login/LoginPageConfig';
 import RegisterPageConfig from 'app/main/register/RegisterPageConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
@@ -18,6 +19,7 @@ const routeConfigs =
   BlocksConfig,
   TransactionsConfig,
   AddressConfig,
+  GasTrackerConfig,
   LoginPageConfig,
   RegisterPageConfig,
   LogoutConfig

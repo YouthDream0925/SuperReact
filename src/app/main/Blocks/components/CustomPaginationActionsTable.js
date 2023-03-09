@@ -167,7 +167,8 @@ export default function CustomPaginationActionsTable(props) {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   useEffect(async () => {
-    let block_count = props.lastBlcokId;
+    const lastConfirmedBlockNumber = await api.get(`/getLastConfirmedBlockNumber`);
+    let block_count = lastConfirmedBlockNumber.data.responseData;
     if(block_count != 0) {
       let temp = [];
       block_count = (block_count - (page * rowsPerPage)) > 0 ? (block_count - (page * rowsPerPage)) : 0;
@@ -182,7 +183,7 @@ export default function CustomPaginationActionsTable(props) {
         );
       }
       setBlocks(temp);
-      setTotalBlocks(props.lastBlcokId + 1);
+      setTotalBlocks(lastConfirmedBlockNumber.data.responseData + 1);
     }
   },[props, page, rowsPerPage]);
 

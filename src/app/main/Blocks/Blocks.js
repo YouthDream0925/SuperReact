@@ -10,7 +10,6 @@ export default function Blocks() {
     const [lastConfirmedBlockNumber, setLastBlock] = useState(0);
 
     useEffect(async () => {
-        const lastConfirmedBlock = await api.get(`/getLastConfirmedBlockNumber`);
         const lastSafeBlock = await api.get(`/getLastSafeBlockNumber`);
         const averageGasPrice = await api.get(`/getAverageGasPrice`);
         const transactions = await api.get(`/getTransactionCountForBlocks`);
@@ -39,7 +38,6 @@ export default function Blocks() {
                 value: rewards.data.rewards
             }
         );
-        setLastBlock(lastConfirmedBlock.data.responseData);
         setData(tmp);        
     },[])  
 
@@ -54,7 +52,7 @@ export default function Blocks() {
                     }
                 </div>
                 <div className="blocks-body">
-                    <CustomPaginationActionsTable data={data} lastBlcokId={lastConfirmedBlockNumber}/>
+                    <CustomPaginationActionsTable data={data}/>
                 </div>            
             </>
         ),
