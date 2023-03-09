@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { element } from 'prop-types';
 import {ethers} from "ethers";
+import {useHistory} from "react-router-dom";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -160,6 +161,7 @@ const useStyles2 = makeStyles({
 });
 
 export default function CustomPaginationActionsTable(props) {
+  const history = useHistory();
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -173,9 +175,9 @@ export default function CustomPaginationActionsTable(props) {
       txns[i].hash,
       txns[i].method,
       txns[i].blockNumber,
-      txns[i].blockNumber,
+      txns[i].age,
       txns[i].from,
-      txns[i].from,
+      txns[i].to == null ? txns[i].contractAddress : txns[i].to,
       txns[i].value,
       txns[i].txnFee
     ));
@@ -190,14 +192,9 @@ export default function CustomPaginationActionsTable(props) {
     setPage(0);
   };
 
-  function ValueLabelComponent(props) {
-    const { children, open, value } = props;
-  
-    return (
-      <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-        {children}
-      </Tooltip>
-    );
+  const handleClick = (targetAddress) => {
+    history.push(`/address/${targetAddress}`);
+    window.location.reload(false);
   }
 
   return (
@@ -225,7 +222,7 @@ export default function CustomPaginationActionsTable(props) {
               <TableCell style={{ width: 80 }} align="left">
                 <Button
                     component={Link}
-                    to="/txn_detail"
+                    to={`/transactions/${row.hash}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"
@@ -237,38 +234,44 @@ export default function CustomPaginationActionsTable(props) {
                 {row.method}
               </TableCell>
               <TableCell style={{ width: 40 }} align="left">
-                <span className="highlight-color">{row.block}</span>
+              <Button
+                    component={Link}
+                    to={`/blocks/${row.block}`}
+                    className="block-selector"
+                    variant="contained"
+                    color="primary"
+                    >
+                    <span className="block-selector hidden sm:flex">{row.block}</span>
+                </Button>
               </TableCell>
               <TableCell style={{ width: 180 }} align="left">
                 {row.age}
               </TableCell>
               <TableCell style={{ width: 160 }} align="left">
                 <Button
-                    component={Link}
-                    to="/address"
                     className="block-selector"
                     variant="contained"
                     color="primary"
+                    onClick={() => handleClick(row.from)}
                     >
                     <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
                 <Button
-                    component={Link}
-                    to="/txn_detail"
                     className="block-selector"
                     variant="contained"
                     color="primary"
+                    onClick={() => handleClick(row.to)}
                     >
                     <span className="block-selector hidden sm:flex">{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
-                {row.value}
+                {row.value / 1000000000000000000} ETH
               </TableCell>
               <TableCell style={{ width: 160 }} align="left">
-                {row.fee}
+                {row.fee / 1000000000} Gwei
               </TableCell>
             </TableRow>
           ))}

@@ -106,7 +106,6 @@ export default function Explorer() {
             if(parseInt(maxOne) < parseInt(gasPrices[i])) maxOne = gasPrices[i];
             if(parseInt(minOne) > parseInt(gasPrices[i])) minOne = gasPrices[i];
         }
-        console.log(maxOne, minOne)
         gasAverage = (parseInt(maxOne) + parseInt(minOne)) / 2
         setData([
             {
