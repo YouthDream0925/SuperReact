@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState, useEffect} from "react";
+import {useState, useEffect, useMemo} from "react";
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -159,37 +159,44 @@ function createData(hash, method, block, from, to, value, fee) {
 
 export default function CustomPaginationActionsTable() {
   const classes = useStyles2();
-  const [page, setPage] = React.useState(1);
+  const [totalTxns, setTotalTxns] = useState(0);
+  const [txns, setTxns] = useState([]);
+  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = useState([]);
 
   useEffect(async () => {
-    const responseData = (await api.get("/getAllTransactions")).data;
-    let rowsData = []
-    for(let i = 0; i < responseData.length ; ++ i) {
-      let method;
-      if(responseData[i].contractAddress != null)
-      {
-        method = "Contract Creation";
-      } else if(responseData[i].input == "0x" || responseData[i].input == "") {
-        method = "Transfer";
-      } else {
-        method = responseData[i].input.slice(0, 10);
-      }
-      rowsData.push(createData(
-        responseData[i].hash,
-        method,
-        responseData[i].blockNumber,
-        responseData[i].from,
-        responseData[i].from,
-        responseData[i].value,
-        ethers.BigNumber.from(responseData[i].effectiveGasPrice).mul(responseData[i].gasUsed).toString()
-      ));
-    }
-    setRows(rowsData);
-  }, []);
+    const total_transactions = (await api.get(`/getTransactionCount`)).data.responseData;
+    if(total_transactions != 0) {
+      const last_txn_id = (total_transactions - (page * rowsPerPage) - 1) > 0 ? (total_transactions - (page * rowsPerPage) - 1) : 0;
+      const start_txn_id = (last_txn_id - rowsPerPage + 1) > 0 ? (last_txn_id - rowsPerPage + 1) : 0;
+      const txns = await api.get(`/getAllTransactionsStartToEnd?start=${start_txn_id}&end=${last_txn_id}`);
+      const txns_length = rowsPerPage > txns.data.length ? txns.data.length : rowsPerPage;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+      let rowsData = [];
+      for(let i = 0; i < txns_length ; ++ i) {
+        let method;
+        if(txns.data[i].contractAddress != null)
+        {
+          method = "Contract Creation";
+        } else if(txns.data[i].input == "0x" || txns.data[i].input == "") {
+          method = "Transfer";
+        } else {
+          method = txns.data[i].input.slice(0, 10);
+        }
+        rowsData.push(createData(
+          txns.data[i].hash,
+          method,
+          txns.data[i].blockNumber,
+          txns.data[i].from,
+          txns.data[i].from,
+          txns.data[i].value,
+          ethers.BigNumber.from(txns.data[i].effectiveGasPrice).mul(txns.data[i].gasUsed).toString()
+        ));
+      }
+      setTxns(rowsData);
+      setTotalTxns(total_transactions);
+    }
+  }, [page, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -210,104 +217,97 @@ export default function CustomPaginationActionsTable() {
     );
   }
 
-  return (
-    <TableContainer component={Paper} style={{ borderRadius: '0'}}>
-      <Table className={classes.table} aria-label="custom pagination table">
-        <TableHead>
-          <TableRow>
-            {columns.map((column) => (
-              <TableCell
-                key={column.id}
-                align={column.align}
-                style={{ minWidth: column.minWidth }}
-              >
-                {column.label}
-              </TableCell>
+  return useMemo(() => (
+    <>
+      <TableContainer component={Paper} style={{ borderRadius: '0'}}>
+        <Table className={classes.table} aria-label="custom pagination table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(txns).map((row) => (
+              <TableRow key={row.hash}>
+                <TableCell style={{ width: 80 }} align="left">
+                  <Button
+                      component={Link}
+                      to={`/transactions/${row.hash}`}
+                      className="block-selector"
+                      variant="contained"
+                      color="primary"
+                      >
+                      <span className="block-selector hidden sm:flex">{`${row.hash.slice(0, 5)}...${row.hash.slice(row.hash.length - 3, row.hash.length)}`}</span>
+                  </Button>
+                </TableCell>
+                <TableCell style={{ width: 100 }} align="left">
+                  {row.method}
+                </TableCell>
+                <TableCell style={{ width: 40 }} align="left">
+                  <span className="highlight-color">{row.block}</span>
+                </TableCell>
+                {/* <TableCell style={{ width: 180 }} align="left">
+                  {row.age}
+                </TableCell> */}
+                <TableCell style={{ width: 160 }} align="left">
+                  <Button
+                      component={Link}
+                      to="/address"
+                      className="block-selector"
+                      variant="contained"
+                      color="primary"
+                      >
+                      <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from.length)}`}</span>
+                  </Button>
+                </TableCell>
+                <TableCell style={{ width: 140 }} align="left">
+                  <Button
+                      component={Link}
+                      to="/txn_detail"
+                      className="block-selector"
+                      variant="contained"
+                      color="primary"
+                      >
+                      <span className="block-selector hidden sm:flex">{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to.length)}`}</span>
+                  </Button>
+                </TableCell>
+                <TableCell style={{ width: 140 }} align="left">
+                  {row.value} wei
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.fee} wei
+                </TableCell>
+              </TableRow>
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row.hash}>
-              <TableCell style={{ width: 80 }} align="left">
-                <Button
-                    component={Link}
-                    to={`/transactions/${row.hash}`}
-                    className="block-selector"
-                    variant="contained"
-                    color="primary"
-                    >
-                    <span className="block-selector hidden sm:flex">{`${row.hash.slice(0, 5)}...${row.hash.slice(row.hash.length - 3, row.hash.length)}`}</span>
-                </Button>
-              </TableCell>
-              <TableCell style={{ width: 100 }} align="left">
-                {row.method}
-              </TableCell>
-              <TableCell style={{ width: 40 }} align="left">
-                <span className="highlight-color">{row.block}</span>
-              </TableCell>
-              {/* <TableCell style={{ width: 180 }} align="left">
-                {row.age}
-              </TableCell> */}
-              <TableCell style={{ width: 160 }} align="left">
-                <Button
-                    component={Link}
-                    to="/address"
-                    className="block-selector"
-                    variant="contained"
-                    color="primary"
-                    >
-                    <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from.length)}`}</span>
-                </Button>
-              </TableCell>
-              <TableCell style={{ width: 140 }} align="left">
-                <Button
-                    component={Link}
-                    to="/txn_detail"
-                    className="block-selector"
-                    variant="contained"
-                    color="primary"
-                    >
-                    <span className="block-selector hidden sm:flex">{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to.length)}`}</span>
-                </Button>
-              </TableCell>
-              <TableCell style={{ width: 140 }} align="left">
-                {row.value} wei
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="left">
-                {row.fee} wei
-              </TableCell>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                colSpan={8}
+                count={totalTxns}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: { 'aria-label': 'rows per page' },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
             </TableRow>
-          ))}
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={8} />
-            </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={8}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
-  );
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </>
+  ),[txns, totalTxns]);
 }

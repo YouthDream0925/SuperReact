@@ -164,7 +164,6 @@ export default function CustomPaginationActionsTable(props) {
   const [blocks, setBlocks] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   useEffect(async () => {
     const lastConfirmedBlockNumber = await api.get(`/getLastConfirmedBlockNumber`);
