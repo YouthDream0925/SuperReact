@@ -187,10 +187,12 @@ export default function CustomPaginationActionsTable(props) {
   },[props, page, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
+    setBlocks([]);
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
+    setBlocks([]);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };

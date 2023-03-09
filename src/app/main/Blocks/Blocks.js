@@ -7,7 +7,7 @@ import {ethers} from "ethers";
 
 export default function Blocks() {
     const [data, setData] = useState([]);
-    const [lastConfirmedBlockNumber, setLastBlock] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(0);
 
     useEffect(async () => {
         const lastSafeBlock = await api.get(`/getLastSafeBlockNumber`);
@@ -42,12 +42,16 @@ export default function Blocks() {
                 link: "/blocks"
             }
         );
-        setData(tmp);        
+        setData(tmp);
+        setIsLoaded(1);
     },[])  
 
     return useMemo(
         () => (
             <>
+            {
+                isLoaded == 1 ?
+                <>
                 <div className='blocks-header'>
                     {
                         data.map((element) => (
@@ -57,9 +61,13 @@ export default function Blocks() {
                 </div>
                 <div className="blocks-body">
                     <CustomPaginationActionsTable data={data}/>
-                </div>            
+                </div>
+                </>
+                :
+                <></>
+            }
             </>
         ),
-        [data]
+        [data, isLoaded]
     );
 }
