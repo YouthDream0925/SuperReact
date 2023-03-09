@@ -35,9 +35,7 @@ export default function BlockDetail(props) {
 
     useEffect(async () => {
         const temp = await api.get(`/getBlock/${blockId}`);
-        console.log('1111111111111111111', temp.data);
         temp.data.extraData = temp.data.extraData.slice(0, 100) + '...';
-        console.log(temp.data.gasUsed.used)
         setBlock(temp.data);
         setUsed(temp.data.gasUsed.used);
         setUsed(temp.data.gasUsed.percentage);
@@ -76,7 +74,7 @@ export default function BlockDetail(props) {
                             <div className='space'></div>
                             <div className='item-box'>
                                 <IconButton className="w-10 h-10"><Icon className='icon-font-size'>alarm_on</Icon></IconButton>
-                                {block.status}
+                                {block.status == 0 ? "Unfinalized" : "Safe"}
                             </div>
                         </ListItem>
                         <ListItem>
@@ -120,7 +118,7 @@ export default function BlockDetail(props) {
                             </div>
                             <div className='space'></div>
                             <div className='item-box'>
-                                {block.totalDifficulty}
+                                {parseInt(block.totalDifficulty)}
                             </div>
                         </ListItem>
                         <ListItem>
@@ -153,7 +151,7 @@ export default function BlockDetail(props) {
                             </div>
                             <div className='space'></div>
                             <div className='item-box'>
-                                {block.gasLimit}
+                                {Number(block.gasLimit).toLocaleString()}
                             </div>
                         </ListItem>
                         <ListItem>
@@ -163,7 +161,7 @@ export default function BlockDetail(props) {
                             </div>
                             <div className='space'></div>
                             <div className='item-box'>
-                                {block.baseFeePerGas}
+                                {block.baseFeePerGas} wei
                             </div>
                         </ListItem>
                         <ListItem>
