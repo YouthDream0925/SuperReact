@@ -7,9 +7,11 @@ import {ethers} from "ethers";
 
 export default function Blocks() {
     const [data, setData] = useState([]);
+    const [lastConfirmedBlockNumber, setLastBlock] = useState(0);
 
     useEffect(async () => {
-        const lastSafeBlock = await api.get(`/getLastSafeBlock`);
+        const lastConfirmedBlock = await api.get(`/getLastConfirmedBlockNumber`);
+        const lastSafeBlock = await api.get(`/getLastSafeBlockNumber`);
         const averageGasPrice = await api.get(`/getAverageGasPrice`);
         const transactions = await api.get(`/getTransactionCountForBlocks`);
         const rewards = await api.get(`/getBlockRewards`);
@@ -37,7 +39,8 @@ export default function Blocks() {
                 value: rewards.data.rewards
             }
         );
-        setData(tmp);
+        setLastBlock(lastConfirmedBlock.data.responseData);
+        setData(tmp);        
     },[])  
 
     return useMemo(
@@ -51,7 +54,7 @@ export default function Blocks() {
                     }
                 </div>
                 <div className="blocks-body">
-                    <CustomPaginationActionsTable data={data}/>
+                    <CustomPaginationActionsTable data={data} lastBlcokId={lastConfirmedBlockNumber}/>
                 </div>            
             </>
         ),

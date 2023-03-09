@@ -10,7 +10,7 @@ function Gas() {
 
   useEffect(async () => {
     const res = await api.get(`/getGasPrice`);
-    setGasPrice(ethers.BigNumber.from(res.data.gasPrice.hex).toString());
+    setGasPrice(ethers.BigNumber.from(res.data.gasPrice).toString());
   }, [])
 
   return (
@@ -20,7 +20,7 @@ function Gas() {
                 <Icon>local_gas_station</Icon>
             </IconButton>
             <div>
-                Gas: <strong style={{color: '#5395c9'}}>{gasPrice / 1000000000} gwei</strong>
+                Gas: <strong style={{color: '#5395c9'}}>{gasPrice} wei</strong>
             </div>
         </div>
     </>

@@ -167,22 +167,22 @@ export default function CustomPaginationActionsTable(props) {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   useEffect(async () => {
-    const firstItem = props.data[0];
-    if(firstItem !== undefined) {
-      console.log(firstItem);
-
+    let block_count = props.lastBlcokId;
+    if(block_count != 0) {
       let temp = [];
-      const lastBlock = await api.get(`/getBlock/${firstItem.value - (page * 5)}`);
-      let i = 0;
-      while(i<rowsPerPage) {
-        const block = await api.get(`/getBlock/${lastBlock.data.blockHeight - i}`);
-        i++;
+      block_count = (block_count - (page * rowsPerPage)) > 0 ? (block_count - (page * rowsPerPage)) : 0;
+      const lastBlock = await api.get(`/getBlock/${block_count}`);
+      const lastBlockId = lastBlock.data.blockHeight;
+      const startBlockId = (lastBlock.data.blockHeight - rowsPerPage + 1) >= 0 ? (lastBlock.data.blockHeight - rowsPerPage + 1) : 0;
+      const blocks = await api.get(`/getAllBlocksStartToEnd?start=${startBlockId}&end=${lastBlockId}`);
+      const legnth = rowsPerPage > blocks.data.length ? blocks.data.length : rowsPerPage;
+      for(let i=0; i<legnth; i++) {
         temp.push(
-          createData(`${block.data.blockHeight}`, `${block.data.timestamp}`, `${block.data.transactions}`, `${block.data.gasUsed.used}`, `${block.data.gasLimit}`, `${block.data.baseFeePerGas}`, `${block.data.blockReward}`, `${block.data.burntFee}`),
+          createData(`${blocks.data[i].number}`, `${blocks.data[i].timestamp}`, `${blocks.data[i].transactions.length}`, `${blocks.data[i].gasUsed}`, `${blocks.data[i].gasLimit}`, `${blocks.data[i].baseFeePerGas}`, `${blocks.data[i].blockReward}`, `${blocks.data[i].burntFee}`),
         );
-      };
+      }
       setBlocks(temp);
-      setTotalBlocks(firstItem.value);
+      setTotalBlocks(props.lastBlcokId + 1);
     }
   },[props, page, rowsPerPage]);
 
