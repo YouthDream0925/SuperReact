@@ -69,7 +69,15 @@ export default function CustomizedTablesForTransactions() {
                 <div style={{ display: 'flex', alignItems: 'center'}}>
                   <Icon>search</Icon>
                   <div style={{ marginLeft: '1rem' }}>
-                    <p style={{color: '#5395c9'}}>{row.hash.slice(0,15)}...</p> 
+                    <Button style={{color: '#5395c9'}}
+                        component={Link}
+                        to={`/transactions/${row.hash}`}
+                        className="block-selector"
+                        variant="contained"
+                        color="primary"
+                    >
+                      {row.hash.slice(0,15)}...
+                    </Button> 
                     <p>{row.timeStamp}s ago</p> 
                   </div>
                 </div>
@@ -89,11 +97,20 @@ export default function CustomizedTablesForTransactions() {
                     </Button>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <p style={{marginRight: '0.5rem'}}>To</p><span style={{color: '#5395c9', marginLeft: '0.5rem'}}>{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to)}`}</span>
+                    <p style={{marginRight: '0.5rem'}}>To</p>
+                    <Button style={{color: '#5395c9', marginLeft: '0.5rem'}}
+                      component={Link}
+                      to={`/address/${row.to}`}
+                      className="block-selector"
+                      variant="contained"
+                      color="primary"
+                    >
+                      {`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to)}`}
+                    </Button>
                   </div>                  
                 </div>
               </StyledTableCell>
-              <StyledTableCell align="right">{row.value} wei</StyledTableCell>
+              <StyledTableCell align="right">{row.value / 1000000000000000000} ether</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
