@@ -61,3 +61,15 @@
     font-size: 24px;
     margin-bottom: 1rem;
 }
+
+.font-11 {
+    font-size: 11px;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.justify-item-start {
+    justify-content: start;
+}

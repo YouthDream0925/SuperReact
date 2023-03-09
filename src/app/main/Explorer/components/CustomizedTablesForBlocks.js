@@ -66,17 +66,24 @@ export default function CustomizedTablesForBlocks(props) {
               <StyledTableCell component="th" scope="row">
                 <div style={{ display: 'flex', alignItems: 'center'}}>
                   <Icon>search</Icon>
+                  <div className='emoticon-container'>
+                      <img
+                          src="assets/icons/custom-pngs/block.png"
+                          alt="aasdfa"
+                      />
+                  </div>
                   <div style={{ marginLeft: '1rem' }}>
                     <Button
                         component={Link}
                         to={`/blocks/${row.block}`}
                         className="block-selector"
+                        style={{justifyContent: 'start'}}
                         variant="contained"
                         color="primary"
                         >
-                        <span className="block-selector hidden sm:flex">{row.block}</span>
+                        <span className="hidden sm:flex font-16">{row.block}</span>
                     </Button>
-                    <p>{row.timeStamp}s ago</p> 
+                    <p className='font-11'>{row.timeStamp}s ago</p> 
                   </div>
                 </div>
               </StyledTableCell>

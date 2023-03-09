@@ -65,7 +65,12 @@ export default function CustomizedTablesForTransactions(props) {
             <StyledTableRow key={row.block}>
               <StyledTableCell component="th" scope="row">
                 <div style={{ display: 'flex', alignItems: 'center'}}>
-                  <Icon>search</Icon>
+                  <div className='emoticon-container'>
+                      <img
+                          src="assets/icons/custom-pngs/transaction.png"
+                          alt="aasdfa"
+                      />
+                  </div>
                   <div style={{ marginLeft: '1rem' }}>
                     <Button style={{color: '#5395c9'}}
                         component={Link}
@@ -74,9 +79,9 @@ export default function CustomizedTablesForTransactions(props) {
                         variant="contained"
                         color="primary"
                     >
-                      {row.hash.slice(0,15)}...
+                      <span className="hidden sm:flex font-16">{row.hash.slice(0,15)}...</span>                      
                     </Button> 
-                    <p>{row.timeStamp}s ago</p> 
+                    <p className='font-11'>{row.timeStamp}s ago</p> 
                   </div>
                 </div>
               </StyledTableCell>
