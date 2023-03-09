@@ -28,11 +28,109 @@ const useStyles = makeStyles({
 export default function GasTracker() {
     const classes = useStyles();
     const [data, setData] = useState([]);
-    const [widget, setWidget] = useState({});
+    const test = {
+        id: 'widget1',
+        series: {          
+          Analytics: [
+            {
+              name: 'Sales',
+              data: [1,2,3],
+              fill: 'start'
+            }
+          ]
+        },
+        options: {
+          chart: {
+            type: 'area',
+            height: '100%',
+            background: 'transparent',
+            toolbar: {
+              show: false
+            },
+            zoom: {
+              enabled: false
+            }
+          },
+          theme: {
+            mode: 'dark'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          xaxis: {
+            categories: ['1', '2', '3'],
+            tooltip: {
+              enabled: false
+            },
+            axisBorder: {
+              show: false
+            }
+          },
+          yaxis: {
+            axisBorder: {
+              show: false
+            }
+          },
+          markers: {
+            size: 1,
+            strokeWidth: 1.5,
+            strokeOpacity: 1,
+            strokeDashArray: 0,
+            fillOpacity: 1,
+            shape: 'circle',
+            radius: 2,
+            hover: {
+              size: 5
+            }
+          },
+          fill: {
+            type: 'solid',
+            opacity: 0.7,
+            gradient: {
+              shadeIntensity: 0.4,
+              opacityFrom: 1,
+              opacityTo: 0.5,
+              stops: [30, 100, 100]
+            }
+          },
+          grid: {
+            show: true,
+            strokeDashArray: 1,
+            position: 'back',
+            xaxis: {
+              lines: {
+                show: true
+              }
+            },
+            yaxis: {
+              lines: {
+                show: true
+              }
+            },
+            padding: {
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0
+            }
+          },
+          stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'butt',
+            width: 1.5,
+            dashArray: 0
+          }
+        }
+    };
+
+    const [isLoaded, setIsLoaded] = useState(0);
+    const [widget, setWidget] = useState(test);
 
     useEffect(async () => {
         const getGasPrice = (await api.get(`/getGasPrice`)).data.gasPrice;
         const getGasPrices = (await api.get(`/getLatestGasPrices`)).data;
+        const lastBlockNumber = (await api.get(`/getLastConfirmedBlockNumber`)).data.responseData;
         const temp = [
             {
                 icon: '',
@@ -62,6 +160,11 @@ export default function GasTracker() {
                 stringTwo: '$0.96 | ~ 30 secs'
             }
         ];
+
+        let categories = [];
+        for(let i=lastBlockNumber-50; i<=lastBlockNumber; i++) {
+            categories.push(i);
+        }
 
         const widget1 = {
             id: 'widget1',
@@ -93,7 +196,7 @@ export default function GasTracker() {
                 enabled: false
               },
               xaxis: {
-                categories: ['1', '2', '3'],
+                categories: categories,
                 tooltip: {
                   enabled: false
                 },
@@ -158,8 +261,9 @@ export default function GasTracker() {
               }
             }
         };
-
-        setData(widget1);
+        setWidget(widget1);
+        setData(temp);
+        setIsLoaded(1);
     }, []);
 
     return (
@@ -172,7 +276,12 @@ export default function GasTracker() {
                 }
             </div> 
             <div style={{padding: '2rem'}}>
-                <Widget1 data={widget} />
+                {
+                    isLoaded == 1 ?
+                    <Widget1 data={widget} />
+                    :
+                    <div></div>
+                }
             </div>
         </>
     );
