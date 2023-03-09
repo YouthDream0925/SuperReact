@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { element } from 'prop-types';
 import {ethers} from "ethers";
+import {useHistory} from "react-router-dom";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -160,6 +161,7 @@ const useStyles2 = makeStyles({
 });
 
 export default function CustomPaginationActionsTable(props) {
+  const history = useHistory();
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -190,14 +192,9 @@ export default function CustomPaginationActionsTable(props) {
     setPage(0);
   };
 
-  function ValueLabelComponent(props) {
-    const { children, open, value } = props;
-  
-    return (
-      <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-        {children}
-      </Tooltip>
-    );
+  const handleClick = (targetAddress) => {
+    history.push(`/address/${targetAddress}`);
+    window.location.reload(false);
   }
 
   return (
@@ -252,22 +249,20 @@ export default function CustomPaginationActionsTable(props) {
               </TableCell>
               <TableCell style={{ width: 160 }} align="left">
                 <Button
-                    component={Link}
-                    to={`/address/${row.from}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"
+                    onClick={() => handleClick(row.from)}
                     >
                     <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
                 <Button
-                    component={Link}
-                    to={`/address/${row.to}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"
+                    onClick={() => handleClick(row.to)}
                     >
                     <span className="block-selector hidden sm:flex">{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to.length)}`}</span>
                 </Button>
