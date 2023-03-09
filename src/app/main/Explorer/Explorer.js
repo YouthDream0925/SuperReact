@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import './Explorer.css';
 import api from "../../../utils/api.js";
 import {useHistory} from 'react-router-dom';
+import {ethers} from "ethers";
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -95,11 +96,13 @@ export default function Explorer() {
     React.useEffect(async () => {
         const gasPrices = (await api.get("/getLatestGasPrices")).data;
         const getLastSafeBlock = (await api.get("/getLastSafeBlockNumber")).data.lastSafeBlock;
-        let gasAverage = 0;
+        let gasAverage = 0, maxOne = gasPrices[0], minOne = gasPrices[0];
         for(let i = 0 ; i < gasPrices.length ; ++i) {
-            gasAverage += parseInt(gasPrices[i]);
+            if(parseInt(maxOne) < parseInt(gasPrices[i])) maxOne = gasPrices[i];
+            if(parseInt(minOne) > parseInt(gasPrices[i])) minOne = gasPrices[i];
         }
-        gasAverage = Math.floor(gasAverage / gasPrices.length);
+        console.log(maxOne, minOne)
+        gasAverage = (parseInt(maxOne) + parseInt(minOne)) / 2
         setData([
             {
                 icon: 'receipt_long',
