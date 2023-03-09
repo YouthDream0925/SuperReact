@@ -85,14 +85,33 @@ export default function CustomizedTablesForBlocks() {
               <StyledTableCell align="left">
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <p>Block Hash:</p><span style={{color: '#5395c9', marginLeft: '0.5rem'}}>{`${row.blockHash.slice(0, 5)}...${row.blockHash.slice(row.blockHash.length - 3, row.blockHash)}`}</span>
+                    <p>Block Hash:</p>
+                    <Button
+                      component={Link}
+                      to={`/blocks/${row.block}`}
+                      className="block-selector"
+                      variant="contained"
+                      color="primary"
+                      style={{color: '#5395c9', marginLeft: '0.5rem'}}
+                    >
+                      {`${row.blockHash.slice(0, 5)}...${row.blockHash.slice(row.blockHash.length - 3, row.blockHash)}`}
+                    </Button>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <p style={{color: '#5395c9', marginRight: '0.5rem'}}>{row.transactions}</p><span>txns in 3 secs</span>
+                    <Button style={{color: '#5395c9', marginRight: '0.5rem'}}
+                      component={Link}
+                      to={`/explorer`}
+                      className="block-selector"
+                      variant="contained"
+                      color="primary"
+                    >
+                      {row.transactions}
+                    </Button>
+                    <span>txns in 3 secs</span>
                   </div>                  
                 </div>
               </StyledTableCell>
-              <StyledTableCell align="right">{row.reward} wei</StyledTableCell>
+              <StyledTableCell align="right">{row.reward / 1000000000} gwei</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

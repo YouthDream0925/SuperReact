@@ -2,6 +2,8 @@ import { memo } from 'react';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 function Element(props) {
   const data = props.data;
@@ -16,7 +18,15 @@ function Element(props) {
             <div>
                 {data.key}
                 <br/>
-                <strong style={{color: '#5395c9'}}>{data.value}</strong>
+                <Button
+                    component={Link}
+                    to={`${data.link}`}
+                    className="block-selector"
+                    variant="contained"
+                    color="primary"
+                >
+                  {data.value}
+                </Button>
             </div>
         </div>
     </>
