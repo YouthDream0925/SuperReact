@@ -90,10 +90,15 @@ export default function Explorer() {
 
     const theme = useTheme();
     const classes = useStyles();
+    const [lastBlocks, setLastBlocks] = React.useState([]);
+    const [lastTransactions, setLastTransactions] = React.useState([]);
     const [searchMethod, setSearchMethod] = React.useState(0);
     const [searchInput, setSearchInput] = React.useState('');
+    const [isLoaded, setIsLoaded] = React.useState(0);
 
     React.useEffect(async () => {
+        const getLasBlocks = await api.get(`/latestBlocks`);
+        const getLasTransactions = await api.get(`/latestTransactions`);
         const gasPrices = (await api.get("/getLatestGasPrices")).data;
         const getLastSafeBlock = (await api.get("/getLastSafeBlockNumber")).data.lastSafeBlock;
         let gasAverage = 0, maxOne = gasPrices[0], minOne = gasPrices[0];
@@ -123,6 +128,9 @@ export default function Explorer() {
                 link: "blocks"
             }
         ]);
+        setLastBlocks(getLasBlocks.data);
+        setLastTransactions(getLasTransactions.data);
+        setIsLoaded(1);
     }, [])
     const handleChange = (event) => {
         setSearchMethod(event.target.value);
@@ -151,76 +159,86 @@ export default function Explorer() {
 
     return (
         <>
-            <div className='search'>
-                <FormControl className={classes.margin}>
-                    <Select
-                        labelId="demo-customized-select-label"
-                        id="demo-customized-select"
-                        value={searchMethod}
-                        onChange={handleChange}
-                        style={{ width: '120px' }}
-                        input={<BootstrapInput />}
-                    >
-                        <MenuItem value={0}>All Filters</MenuItem>
-                        <MenuItem value={1}>Addresses</MenuItem>
-                        <MenuItem value={2}>Transaction Hashes</MenuItem>
-                        <MenuItem value={3}>Block Number</MenuItem>
-                    </Select>
-                </FormControl>
-                <div className="flex flex-1 items-center max-w-md">
-                    <ThemeProvider theme={theme}>
-                        <Paper className="flex items-center h-44 w-full px-16 rounded-16 shadow">
-                            <Input
-                                placeholder="Search by Address / Txn Hash / Block"
-                                disableUnderline
-                                fullWidth
-                                inputProps={{
-                                'aria-label': 'Search',
-                                }}
-                                onKeyUp = {(e) => handleInputChange(e)}
-                            />
-                            <Icon color="action">search</Icon>
-                        </Paper>
-                    </ThemeProvider>
+            {
+                isLoaded == 1 ?
+                <div className='search'>
+                    <FormControl className={classes.margin}>
+                        <Select
+                            labelId="demo-customized-select-label"
+                            id="demo-customized-select"
+                            value={searchMethod}
+                            onChange={handleChange}
+                            style={{ width: '120px' }}
+                            input={<BootstrapInput />}
+                        >
+                            <MenuItem value={0}>All Filters</MenuItem>
+                            <MenuItem value={1}>Addresses</MenuItem>
+                            <MenuItem value={2}>Transaction Hashes</MenuItem>
+                            <MenuItem value={3}>Block Number</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <div className="flex flex-1 items-center max-w-md">
+                        <ThemeProvider theme={theme}>
+                            <Paper className="flex items-center h-44 w-full px-16 rounded-16 shadow">
+                                <Input
+                                    placeholder="Search by Address / Txn Hash / Block"
+                                    disableUnderline
+                                    fullWidth
+                                    inputProps={{
+                                    'aria-label': 'Search',
+                                    }}
+                                    onKeyUp = {(e) => handleInputChange(e)}
+                                />
+                                <Icon color="action">search</Icon>
+                            </Paper>
+                        </ThemeProvider>
+                    </div>
+                    {
+                        data.map((element) => (
+                            <Element data = {element} />
+                        ))
+                    }
                 </div>
-                {
-                    data.map((element) => (
-                        <Element data = {element} />
-                    ))
-                }
-            </div>
-            <div className="table-container">
-                <div style={{ width: '50%', marginRight: '0.75rem' }}>
-                    <div className='table-header'>LAST BLOCKS</div>
-                    <CustomizedTablesForBlocks />
-                    <div className='table-footer'>
-                        <Button
-                            component={Link}
-                            to="/blocks"
-                            className="whitespace-nowrap"
-                            variant="contained"
-                            color="primary"
-                            >
-                            <span className="hidden sm:flex">VIEW ALL BLOCKS</span>
-                        </Button>
+                :
+                <></>
+            }
+            {
+                isLoaded == 1 ?
+                <div className="table-container">
+                    <div style={{ width: '50%', marginRight: '0.75rem' }}>
+                        <div className='table-header'>LAST BLOCKS</div>
+                        <CustomizedTablesForBlocks blocks = {lastBlocks} />
+                        <div className='table-footer'>
+                            <Button
+                                component={Link}
+                                to="/blocks"
+                                className="whitespace-nowrap"
+                                variant="contained"
+                                color="primary"
+                                >
+                                <span className="hidden sm:flex">VIEW ALL BLOCKS</span>
+                            </Button>
+                        </div>
+                    </div>
+                    <div style={{ width: '50%', marginLeft: '0.75rem' }}>
+                        <div className='table-header'>LAST TRANSACTIONS</div>
+                        <CustomizedTablesForTransactions txns = {lastTransactions} />
+                        <div className='table-footer'>
+                            <Button
+                                component={Link}
+                                to="/transactions"
+                                className="whitespace-nowrap"
+                                variant="contained"
+                                color="primary"
+                                >
+                                <span className="hidden sm:flex">VIEW ALL TRANSACIONS</span>
+                            </Button>
+                        </div>                    
                     </div>
                 </div>
-                <div style={{ width: '50%', marginLeft: '0.75rem' }}>
-                    <div className='table-header'>LAST TRANSACTIONS</div>
-                    <CustomizedTablesForTransactions />
-                    <div className='table-footer'>
-                        <Button
-                            component={Link}
-                            to="/transactions"
-                            className="whitespace-nowrap"
-                            variant="contained"
-                            color="primary"
-                            >
-                            <span className="hidden sm:flex">VIEW ALL TRANSACIONS</span>
-                        </Button>
-                    </div>                    
-                </div>
-            </div>
+                :
+                <></>
+            }
         </>
     );
 }

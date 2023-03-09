@@ -42,15 +42,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CustomizedTablesForTransactions() {
+export default function CustomizedTablesForTransactions(props) {
   const classes = useStyles();
 
   const [rows, setRows] = useState([]);
 
   useEffect(async () => {
-    const res = await api.get(`/latestTransactions`);
-    const blks = res.data;
-    console.log(blks);
+    const blks = props.txns;
     let rowsTemp = [];
     for(let i = 0 ; i < blks.length; ++ i) {
       rowsTemp.push(createData(blks[i].txHash, Math.floor(new Date().getTime() / 1000) - blks[i].timestamp, blks[i].from, blks[i].to, blks[i].value));

@@ -42,15 +42,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CustomizedTablesForBlocks() {
+export default function CustomizedTablesForBlocks(props) {
   const classes = useStyles();
 
   const [rows, setRows] = useState([]);
 
   useEffect(async () => {
-    const res = await api.get(`/latestBlocks`);
-    const blks = res.data;
-    console.log(blks);
+    const blks = props.blocks;
     let rowsTemp = [];
     for(let i = 0 ; i < blks.length; ++ i) {
       rowsTemp.push(createData(blks[i].blockNumber, Math.floor(new Date().getTime() / 1000) - blks[i].timestamp, blks[i].blockHash, blks[i].transactions, blks[i].blockReward));
