@@ -33,7 +33,7 @@ export default function GasTracker() {
         series: {          
           Analytics: [
             {
-              name: 'Sales',
+              name: 'Gas Price',
               data: [1,2,3],
               fill: 'start'
             }
@@ -171,7 +171,7 @@ export default function GasTracker() {
             series: {          
               Analytics: [
                 {
-                  name: 'Sales',
+                  name: 'Gas Price',
                   data: getGasPrices,
                   fill: 'start'
                 }
