@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -13,10 +13,50 @@ import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
 import CustomPaginationActionsTable from './components/CustomPaginationActionsTable';
 import Contract from './components/Contract';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputBase from '@material-ui/core/InputBase';
 import { useEffect, useState, useMemo } from 'react';
+import MenuItem from '@material-ui/core/MenuItem';
 import api from "../../../utils/api.js";
 import {ethers} from "ethers";
 import './Address.css';
+
+const BootstrapInput = withStyles((theme) => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  input: {
+    placeholder: "123-45-678",
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase);
 
 const useStyles = makeStyles({
   root: {
@@ -57,12 +97,14 @@ export default function Address(props) {
   const classes1 = useStyles1();
   const [address, setAddress] = useState({
     txs: [],
+    tokenholdes: []
   });
   const bull = <span className={classes.bullet}>•</span>;
 
   // const [show_transactions, show_contracts] = useState(() => needsToBeOpened());
 
   const [addressTab, setAddressTab] = useState(true);
+  const [age, setAge] = React.useState('');
 
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
@@ -80,11 +122,16 @@ export default function Address(props) {
     setAddressTab(false);
   }
 
+  const handleChange = (event) => {
+    props.history.push(`/address/${event.target.value}`)
+    setAge(event.target.value);
+  };
+
   useEffect(async () => {
     const temp = await api.get(`/getAddress/${hash}`);
     console.log(temp);
     setAddress(temp.data);
-	}, []);
+	}, [age]);  
 
   return useMemo(
     () => (
@@ -117,6 +164,26 @@ export default function Address(props) {
               <Typography className={classes.pos} color="textSecondary">
                 {address.nonce}
               </Typography>
+              {
+                address.type == 'address' ? 
+                <FormControl className={classes.margin}>
+                  <Select
+                    labelId="demo-customized-select-label"
+                    id="demo-customized-select"
+                    onChange={handleChange}
+                    style={{ width: '250px' }}
+                    input={<BootstrapInput />}
+                  >
+                    {
+                      (address.tokenholdes).map((element) => (
+                        <MenuItem value={`${element.address}`}>{`${element.name}(${element.symbol})`}</MenuItem>
+                      ))
+                    }              
+                  </Select>                
+                </FormControl>
+                :
+                <></>
+              }              
             </CardContent>
           </Card>
           {
@@ -150,22 +217,28 @@ export default function Address(props) {
               clickable
               onClick={showTransactions}
             />
-            <Chip
-              size="small"
-              label="Contract"
-              color="primary"
-              clickable
-              onClick={showContracts}
-            />
+            {
+              address.type == 'contract' ?
+              <Chip
+                size="small"
+                label="Contract"
+                color="primary"
+                clickable
+                onClick={showContracts}
+              />
+              :
+              <></>
+            }
+            
           </div>
           {
             addressTab ? 
             <div className="transactions">
-              <CustomPaginationActionsTable />
+              <CustomPaginationActionsTable txns={address.txs}/>
             </div>
             :
             <div className="contracts">
-              <Contract />
+              <Contract code={address.code} api={address.ABI}/>
             </div>
           }
         </div>

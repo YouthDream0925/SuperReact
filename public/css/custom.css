@@ -51,3 +51,13 @@
     display: flex;
     padding: 2rem;
 }
+
+.code-border {
+    border-bottom: 1px solid white;
+}
+
+.code-title {
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 1rem;
+}

@@ -15,40 +15,27 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-export default function CustomPaginationActionsTable() {
-    const code = "<p>pragma solidity ^0.8.1;</p>" +    
-                    "contract SendMoneyExample {" + 
-                        "uint public balanceReceived;" +                         
-                        "function receiveMoney() public payable {" + 
-                            "balanceReceived += msg.value;" + 
-                        "}" +                     
-                        "function getBalance() public view returns(uint) {" + 
-                            "return address(this).balance;" + 
-                        "}" + 
-                        "function withdrawMoney() public {" + 
-                            "address payable to = payable(msg.sender);" + 
-                            "to.transfer(getBalance());"  +
-                        "}" + 
-                    "}";
+export default function CustomPaginationActionsTable(props) {
+    const code = props.code;
+    const api = props.api;
+    
     return (
         <>
             <React.Fragment>
                 <CssBaseline />
                 <Container fixed>
+                    <Typography component="div" className="code-border" style={{ backgroundColor: '#1e2125', height: '100%', padding: '3rem' }}>
+                        <div className='code-title'>CODE</div>
+                        {code}
+                    </Typography>
+                </Container>
+            </React.Fragment>
+            <React.Fragment>
+                <CssBaseline />
+                <Container fixed>
                     <Typography component="div" style={{ backgroundColor: '#1e2125', height: '100%', padding: '3rem' }}>
-                        <div>{"pragma solidity ^0.8.1;"}</div>
-                        <div>{"contract SendMoneyExample {"}</div>
-                        <div>{"uint public balanceReceived;"}</div>
-                        <div>{"function receiveMoney() public payable {"}</div>
-                        <div>{"balanceReceived += msg.value;"}</div>
-                        <div>{"}"}</div>
-                        <div>{"function getBalance() public view returns(uint) {"}</div>
-                        <div>{"return address(this).balance;"}</div>
-                        <div>{"}"}</div>
-                        <div>{"function withdrawMoney() public {"}</div>
-                        <div>{"address payable to = payable(msg.sender);"}</div>
-                        <div>{"to.transfer(getBalance());"}</div>
-                        <div>{"}"}</div>
+                        <div className='code-title'>ABI</div>
+                        {api}
                     </Typography>
                 </Container>
             </React.Fragment>

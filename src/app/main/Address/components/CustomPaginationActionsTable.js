@@ -20,6 +20,8 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import { element } from 'prop-types';
+import {ethers} from "ethers";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -149,27 +151,6 @@ const columns = [
 
 const rows = [
   createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
-  createData('0xcC748AC405c7C...', 'Transfer', '16777805	', '8 secs ago', '0x71638d..710289dF', '0xFf9F7f...f60B71D4', '0.09918 ETH', '0.003472'),
 ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
 const useStyles2 = makeStyles({
@@ -178,12 +159,27 @@ const useStyles2 = makeStyles({
   },
 });
 
-export default function CustomPaginationActionsTable() {
+export default function CustomPaginationActionsTable(props) {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const txns = props.txns;
+  let rowsData = [];
+  for(let i = 0; i < txns.length ; ++ i) {
+    let method;
+    method = "Transfer";
+    rowsData.push(createData(
+      txns[i].hash,
+      txns[i].method,
+      txns[i].blockNumber,
+      txns[i].blockNumber,
+      txns[i].from,
+      txns[i].from,
+      txns[i].value,
+      txns[i].txnFee
+    ));
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -222,8 +218,8 @@ export default function CustomPaginationActionsTable() {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+            ? rowsData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : rowsData
           ).map((row) => (
             <TableRow key={row.hash}>
               <TableCell style={{ width: 80 }} align="left">
@@ -234,7 +230,7 @@ export default function CustomPaginationActionsTable() {
                     variant="contained"
                     color="primary"
                     >
-                    <span className="block-selector hidden sm:flex">{row.hash}</span>
+                    <span className="block-selector hidden sm:flex">{`${row.hash.slice(0, 5)}...${row.hash.slice(row.hash.length - 3, row.hash.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 100 }} align="left">
@@ -254,7 +250,7 @@ export default function CustomPaginationActionsTable() {
                     variant="contained"
                     color="primary"
                     >
-                    <span className="block-selector hidden sm:flex">{row.from}</span>
+                    <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
@@ -265,7 +261,7 @@ export default function CustomPaginationActionsTable() {
                     variant="contained"
                     color="primary"
                     >
-                    <span className="block-selector hidden sm:flex">{row.to}</span>
+                    <span className="block-selector hidden sm:flex">{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to.length)}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
@@ -276,19 +272,13 @@ export default function CustomPaginationActionsTable() {
               </TableCell>
             </TableRow>
           ))}
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={8} />
-            </TableRow>
-          )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={8}
-              count={rows.length}
+              count={rowsData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
