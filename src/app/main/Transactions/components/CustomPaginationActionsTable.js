@@ -162,7 +162,7 @@ export default function CustomPaginationActionsTable() {
   const [totalTxns, setTotalTxns] = useState(0);
   const [txns, setTxns] = useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   useEffect(async () => {
     const total_transactions = (await api.get(`/getTransactionCount`)).data.responseData;
@@ -188,7 +188,7 @@ export default function CustomPaginationActionsTable() {
           method,
           txns.data[i].blockNumber,
           txns.data[i].from,
-          txns.data[i].from,
+          txns.data[i].to == null ? txns.data[i].contractAddress : txns.data[i].to,
           txns.data[i].value,
           ethers.BigNumber.from(txns.data[i].effectiveGasPrice).mul(txns.data[i].gasUsed).toString()
         ));
@@ -260,7 +260,7 @@ export default function CustomPaginationActionsTable() {
                 <TableCell style={{ width: 160 }} align="left">
                   <Button
                       component={Link}
-                      to="/address"
+                      to={`/address/${row.from}`}
                       className="block-selector"
                       variant="contained"
                       color="primary"
@@ -271,7 +271,7 @@ export default function CustomPaginationActionsTable() {
                 <TableCell style={{ width: 140 }} align="left">
                   <Button
                       component={Link}
-                      to="/txn_detail"
+                      to={`/address/${row.to}`}
                       className="block-selector"
                       variant="contained"
                       color="primary"
@@ -280,10 +280,10 @@ export default function CustomPaginationActionsTable() {
                   </Button>
                 </TableCell>
                 <TableCell style={{ width: 140 }} align="left">
-                  {row.value} wei
+                  {row.value / 1000000000000000000} ETH
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
-                  {row.fee} wei
+                  {row.fee / 1000000000} Gwei
                 </TableCell>
               </TableRow>
             ))}

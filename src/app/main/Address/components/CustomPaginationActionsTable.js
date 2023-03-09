@@ -173,9 +173,9 @@ export default function CustomPaginationActionsTable(props) {
       txns[i].hash,
       txns[i].method,
       txns[i].blockNumber,
-      txns[i].blockNumber,
+      txns[i].age,
       txns[i].from,
-      txns[i].from,
+      txns[i].to == null ? txns[i].contractAddress : txns[i].to,
       txns[i].value,
       txns[i].txnFee
     ));
@@ -225,7 +225,7 @@ export default function CustomPaginationActionsTable(props) {
               <TableCell style={{ width: 80 }} align="left">
                 <Button
                     component={Link}
-                    to="/txn_detail"
+                    to={`/transactions/${row.hash}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"
@@ -237,7 +237,15 @@ export default function CustomPaginationActionsTable(props) {
                 {row.method}
               </TableCell>
               <TableCell style={{ width: 40 }} align="left">
-                <span className="highlight-color">{row.block}</span>
+              <Button
+                    component={Link}
+                    to={`/blocks/${row.block}`}
+                    className="block-selector"
+                    variant="contained"
+                    color="primary"
+                    >
+                    <span className="block-selector hidden sm:flex">{row.block}</span>
+                </Button>
               </TableCell>
               <TableCell style={{ width: 180 }} align="left">
                 {row.age}
@@ -245,7 +253,7 @@ export default function CustomPaginationActionsTable(props) {
               <TableCell style={{ width: 160 }} align="left">
                 <Button
                     component={Link}
-                    to="/address"
+                    to={`/address/${row.from}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"
@@ -256,7 +264,7 @@ export default function CustomPaginationActionsTable(props) {
               <TableCell style={{ width: 140 }} align="left">
                 <Button
                     component={Link}
-                    to="/txn_detail"
+                    to={`/address/${row.to}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"
@@ -265,10 +273,10 @@ export default function CustomPaginationActionsTable(props) {
                 </Button>
               </TableCell>
               <TableCell style={{ width: 140 }} align="left">
-                {row.value}
+                {row.value / 1000000000000000000} ETH
               </TableCell>
               <TableCell style={{ width: 160 }} align="left">
-                {row.fee}
+                {row.fee / 1000000000} Gwei
               </TableCell>
             </TableRow>
           ))}

@@ -12,6 +12,8 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import './TransactionDetail.css';
 import api from "../../../utils/api.js";
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,7 +84,16 @@ export default function TransactionDetail(props) {
                         <div className='space'></div>
                         <div className='item-box'>
                             <IconButton className="w-10 h-10"><Icon className='icon-font-size'>schedule</Icon></IconButton>
+                            <Button style={{color: '#5395c9', marginLeft: '0.5rem'}}
+                            component={Link}
+                            to={`/blocks/${txDetail.block}`}
+                            className="block-selector"
+                            variant="contained"
+                            color="primary"
+                        >
                             {txDetail.block}
+                        </Button>
+                        {32 - txDetail.block % 32} Block Confirmation
                         </div>
                     </ListItem>
                     <ListItem>
@@ -105,9 +116,15 @@ export default function TransactionDetail(props) {
                             From:
                         </div>
                         <div className='space'></div>
-                        <div className='item-box'>
+                        <Button style={{color: '#5395c9', marginLeft: '0.5rem'}}
+                            component={Link}
+                            to={`/address/${txDetail.from}`}
+                            className="block-selector"
+                            variant="contained"
+                            color="primary"
+                        >
                             {txDetail.from}
-                        </div>
+                        </Button>
                     </ListItem>
                     <ListItem>
                         <div className='item-box'>
@@ -115,9 +132,15 @@ export default function TransactionDetail(props) {
                             To:
                         </div>
                         <div className='space'></div>
-                        <div className='item-box'>
+                        <Button style={{color: '#5395c9', marginLeft: '0.5rem'}}
+                            component={Link}
+                            to={`/address/${txDetail.to}`}
+                            className="block-selector"
+                            variant="contained"
+                            color="primary"
+                        >
                             {txDetail.to}
-                        </div>
+                        </Button>
                     </ListItem>
                 </List>
                 <Divider />
@@ -139,7 +162,7 @@ export default function TransactionDetail(props) {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            {txDetail.transactionFee} wei
+                            {txDetail.transactionFee / 1000000000000000000} ETH
                         </div>
                     </ListItem>
                     <ListItem>
@@ -149,7 +172,7 @@ export default function TransactionDetail(props) {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            {txDetail.gasPrice} wei
+                            {txDetail.gasPrice / 1000000000} Gwei
                         </div>
                     </ListItem>
                 </List>
@@ -172,7 +195,7 @@ export default function TransactionDetail(props) {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            Base: {txDetail.gasFees.base} wei | Max: {txDetail.gasFees.Max} gwei | Max Priority: {txDetail.gasFees.MaxPriority} wei
+                            Base: {txDetail.gasFees.base} wei | Max: {txDetail.gasFees.Max / 1000000000} Gwei | Max Priority: {txDetail.gasFees.MaxPriority / 1000000000} Gwei
                         </div>
                     </ListItem>
                     <ListItem>
@@ -182,7 +205,7 @@ export default function TransactionDetail(props) {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            Burnt: {txDetail.burntFeeAndSavingFee.burnt} wei, Txn Savings: {txDetail.burntFeeAndSavingFee.saving} wei
+                            Burnt: {txDetail.burntFeeAndSavingFee.burnt / 1000000000} Gwei, Txn Savings: {txDetail.burntFeeAndSavingFee.saving / 1000000000} Gwei
                         </div>
                     </ListItem>
                 </List>
@@ -195,7 +218,7 @@ export default function TransactionDetail(props) {
                         </div>
                         <div className='space'></div>
                         <div className='item-box'>
-                            Txn Type: {txDetail.otherType.txnType} (BP-1559), Nonce: {txDetail.otherType.nonce}, Position in Block: {txDetail.otherType.position}
+                            Txn Type: {txDetail.otherType.txnType} (BP-1559), Nonce: {parseInt(txDetail.otherType.nonce)}, Position in Block: {txDetail.otherType.position}
                         </div>
                     </ListItem>
                     <ListItem>

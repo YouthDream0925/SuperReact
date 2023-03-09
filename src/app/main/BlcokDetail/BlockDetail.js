@@ -11,6 +11,7 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import api from "../../../utils/api.js";
 import './BlockDetail.css';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,8 @@ function ListItemLink(props) {
 }
 
 export default function BlockDetail(props) {
+    let history = useHistory();
+
     const blockId = props.match.params.blockId;
     const classes = useStyles();
     const [block, setBlock] = useState({});
@@ -32,16 +35,45 @@ export default function BlockDetail(props) {
     const [percentage, setPercentage] = useState(0);
     const [slot, setSlot] = useState(0);
     const [epoch, setEpoch] = useState(0);
+    const [currentBlock, setCurrentBlock] = useState(-1);
 
     useEffect(async () => {
         const temp = await api.get(`/getBlock/${blockId}`);
         temp.data.extraData = temp.data.extraData.slice(0, 100) + '...';
         setBlock(temp.data);
         setUsed(temp.data.gasUsed.used);
-        setUsed(temp.data.gasUsed.percentage);
+        setPercentage(temp.data.gasUsed.percentage);
         setSlot(temp.data.proposedOn.slot);
         setEpoch(temp.data.proposedOn.epoch);
     },[])
+
+    useEffect(async () => {
+        if(currentBlock != -1) {
+            const temp = await api.get(`/getBlock/${currentBlock}`);
+            temp.data.extraData = temp.data.extraData.slice(0, 100) + '...';
+            setBlock(temp.data);
+            setUsed(temp.data.gasUsed.used);
+            setPercentage(temp.data.gasUsed.percentage);
+            setSlot(temp.data.proposedOn.slot);
+            setEpoch(temp.data.proposedOn.epoch);
+        }
+    }, [currentBlock])
+
+    const leftArrowClick = async () => {
+        if(block.blockHeight > 0) {
+            history.push(`/blocks/${block.blockHeight-1}`);
+            setCurrentBlock(block.blockHeight-1);
+        }
+    }
+
+    const rightArrowClick = async () => {
+        const lastConfirmedBlock = (await api.get("/getLastConfirmedBlockNumber")).data.responseData;
+        console.log(lastConfirmedBlock);
+        if(block.blockHeight < lastConfirmedBlock) {
+            history.push(`/blocks/${block.blockHeight+1}`);
+            setCurrentBlock(block.blockHeight+1);
+        }
+    }
 
     return useMemo(
         () => (
@@ -61,8 +93,8 @@ export default function BlockDetail(props) {
                             <div className='item-box'>
                                 #{block.blockHeight}
                                 <div style={{marginLeft: '1rem'}}>
-                                    <IconButton className="w-10 h-10"><Icon className='icon-font-size'>arrow_back_ios</Icon></IconButton>
-                                    <IconButton className="w-10 h-10"><Icon className='icon-font-size'>arrow_forward_ios</Icon></IconButton>
+                                    <IconButton className="w-10 h-10" onClick={() => leftArrowClick()}><Icon className='icon-font-size'>arrow_back_ios</Icon></IconButton>
+                                    <IconButton className="w-10 h-10" onClick={() => rightArrowClick()}><Icon className='icon-font-size'>arrow_forward_ios</Icon></IconButton>
                                 </div>
                             </div>
                         </ListItem>
@@ -171,7 +203,7 @@ export default function BlockDetail(props) {
                             </div>
                             <div className='space'></div>
                             <div className='item-box'>
-                                {block.burntFee}
+                                {block.burntFee / 1000000000} gwei
                             </div>
                         </ListItem>
                         <ListItem>

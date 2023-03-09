@@ -156,7 +156,7 @@ export default function Address(props) {
                 ETH BALANCE
               </Typography>
               <Typography className="address-container" variant="body2" component="p">
-                <Icon className='icon-size'>copy</Icon> {`${address.ethBalance}`} ETH
+                <Icon className='icon-size'>copy</Icon> {`${address.ethBalance / 1000000000000000000}`} ETH
               </Typography>
               <Typography style={{marginTop: '1rem'}}className={classes.title} color="textSecondary" gutterBottom>
                 NONCE
