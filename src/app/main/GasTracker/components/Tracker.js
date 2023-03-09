@@ -33,7 +33,7 @@ function Tracker(props) {
                 <CardContent>
                     <div className='emoticon-container'>
                         <img
-                            src="assets/icons/custom-svgs/reshot-icon-tongue-A9UCKEL2MR.svg"
+                            src={`${data.link}`}
                             alt="aasdfa"
                         />
                     </div>
