@@ -139,25 +139,28 @@ export default function GasTracker() {
                 value: `${getGasPrice + 1}`,
                 unit: 'wei',
                 stringOne: 'Base: 27 | Priority: 1',
-                stringTwo: '$0.89 | ~ 10 mins: 0 secs'
+                stringTwo: '$0.89 | ~ 10 mins: 0 secs',
+                link: 'assets/icons/custom-svgs/reshot-icon-big-grin-UAXJMPYT2L.svg',
             },
             {
                 icon: '',
-                level: 'Low',
+                level: 'Agerage',
                 value: '1',
                 color: '#0974b3',
                 unit: 'Gwei',
                 stringOne: 'Base: 27 | Priority: 2',
-                stringTwo: '$0.92 | ~ 3 mins: 0 secs'
+                stringTwo: '$0.92 | ~ 3 mins: 0 secs',
+                link: 'assets/icons/custom-svgs/reshot-icon-tongue-A9UCKEL2MR.svg',
             },
             {
                 icon: '',
-                level: 'Low',
+                level: 'High',
                 value: '2',
                 color: '#8a2124',
                 unit: 'Gwei',
                 stringOne: 'Base: 27 | Priority: 3',
-                stringTwo: '$0.96 | ~ 30 secs'
+                stringTwo: '$0.96 | ~ 30 secs',
+                link: 'assets/icons/custom-svgs/happy-smile-46UK2PE9CT.svg',
             }
         ];
 

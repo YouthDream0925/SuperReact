@@ -41,10 +41,7 @@ function Widget1(props) {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="flex flex-col items-center sm:items-start mb-16 sm:mb-0">
               <Typography className="h2 font-medium" color="textPrimary">
-                Visitors
-              </Typography>
-              <Typography className="h5" color="textSecondary">
-                Unique visitors by month
+                Gas Prices Chart
               </Typography>
             </div>
           </motion.div>
