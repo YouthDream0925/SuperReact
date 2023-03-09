@@ -255,13 +255,13 @@ export default function CustomPaginationActionsTable(props) {
                   {row.limit}
                 </TableCell>
                 <TableCell style={{ width: 140 }} align="left">
-                  {row.base}
+                  {`${row.base} wei`}
                 </TableCell>
                 <TableCell style={{ width: 140 }} align="left">
-                  {row.reward}
+                  {`${row.reward / 1000000000} gwei`}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
-                  {row.burnt}
+                  {`${row.base * row.gas / 1000000000} gwei`}
                 </TableCell>
               </TableRow>
             ))}

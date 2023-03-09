@@ -25,7 +25,7 @@ export default function Blocks() {
             {
                 icon: '',
                 key: 'AVERAGE GAS PRICE',
-                value: averageGasPrice.data.averagteGasPrice
+                value: `${averageGasPrice.data.averagteGasPrice} wei`
             },
             {
                 icon: '',
@@ -35,7 +35,7 @@ export default function Blocks() {
             {
                 icon: '',
                 key: 'REWARDS',
-                value: rewards.data.rewards
+                value: `${rewards.data.rewards / 1000000000} gwei`
             }
         );
         setData(tmp);        
