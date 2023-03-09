@@ -20,22 +20,26 @@ export default function Blocks() {
             {
                 icon: '',
                 key: 'LAST SAFE BLOCK',
-                value: lastSafeBlock.data.lastSafeBlock
+                value: lastSafeBlock.data.lastSafeBlock,
+                link: `/blocks/${lastSafeBlock.data.lastSafeBlock}`
             },
             {
                 icon: '',
-                key: 'AVERAGE GAS PRICE',
-                value: `${averageGasPrice.data.averagteGasPrice} wei`
+                key: 'AVERAGE GAS PRICE(For 100 blocks)',
+                value: `${averageGasPrice.data.averagteGasPrice} wei`,
+                link: "/gasTracker"
             },
             {
                 icon: '',
-                key: 'TRNSACTION COUNT',
-                value: transactions.data.count
+                key: 'TRNSACTION COUNT(For 100 Blocks)',
+                value: transactions.data.count,
+                link: "/transactions"
             },
             {
                 icon: '',
-                key: 'REWARDS',
-                value: `${rewards.data.rewards / 1000000000} gwei`
+                key: 'REWARDS(For 100 blocks)',
+                value: `${rewards.data.rewards / 1000000000} gwei`,
+                link: "/blocks"
             }
         );
         setData(tmp);        

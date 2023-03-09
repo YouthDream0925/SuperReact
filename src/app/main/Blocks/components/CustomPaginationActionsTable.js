@@ -87,8 +87,8 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(block, age, txn, gas, limit, base, reward, burnt) {
-  return { block, age, txn, gas, limit, base, reward, burnt };
+function createData(block, age, txn, gas, limit, base, reward, burnt, gasUsed) {
+  return { block, age, txn, gas, limit, base, reward, burnt , gasUsed};
 }
 
 const columns = [
@@ -178,7 +178,7 @@ export default function CustomPaginationActionsTable(props) {
       const legnth = rowsPerPage > blocks.data.length ? blocks.data.length : rowsPerPage;
       for(let i=0; i<legnth; i++) {
         temp.push(
-          createData(`${blocks.data[i].number}`, `${blocks.data[i].timestamp}`, `${blocks.data[i].transactions.length}`, `${blocks.data[i].gasUsed}`, `${blocks.data[i].gasLimit}`, `${blocks.data[i].baseFeePerGas}`, `${blocks.data[i].blockReward}`, `${blocks.data[i].burntFee}`),
+          createData(`${blocks.data[i].number}`, `${blocks.data[i].timestamp}`, `${blocks.data[i].transactions.length}`, `${blocks.data[i].gasUsed / blocks.data[i].gasLimit * 100}`, `${blocks.data[i].gasLimit}`, `${blocks.data[i].baseFeePerGas}`, `${blocks.data[i].blockReward}`, `${blocks.data[i].burntFee}`, blocks.data[i].gasUsed),
         );
       }
       setBlocks(temp);
@@ -202,6 +202,27 @@ export default function CustomPaginationActionsTable(props) {
       <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
         {children}
       </Tooltip>
+    );
+  }
+
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  const formatDate = (unix_timestamp) => {
+    var date = new Date(unix_timestamp * 1000);
+    return (
+      [
+        date.getFullYear(),
+        padTo2Digits(date.getMonth() + 1),
+        padTo2Digits(date.getDate()),
+      ].join('-') +
+      ' ' +
+      [
+        padTo2Digits(date.getHours()),
+        padTo2Digits(date.getMinutes()),
+        padTo2Digits(date.getSeconds()),
+      ].join(':')
     );
   }
 
@@ -237,18 +258,19 @@ export default function CustomPaginationActionsTable(props) {
                   </Button>
                 </TableCell>
                 <TableCell style={{ width: 100 }} align="left">
-                  {row.age}
+                  {`${Math.floor(new Date().getTime() / 1000) - row.age} secs ago`}
                 </TableCell>
                 <TableCell style={{ width: 40 }} align="left">
                   <span className="highlight-color">{row.txn}</span>                
                 </TableCell>
                 <TableCell style={{ width: 180 }} align="left">
-                  {row.gas}
+                  {parseFloat(row.gas).toFixed(4)}%
                   <Slider
                     className="highlight-color"
                     ValueLabelComponent={ValueLabelComponent}
                     aria-label="custom thumb label"
-                    defaultValue={row.gas}
+                    defaultValue={parseInt(row.gas)}
+                    disabled={true}
                   />
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
@@ -258,10 +280,10 @@ export default function CustomPaginationActionsTable(props) {
                   {`${row.base} wei`}
                 </TableCell>
                 <TableCell style={{ width: 140 }} align="left">
-                  {`${row.reward / 1000000000} gwei`}
+                  {`${row.reward / 1000000000} Gwei`}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
-                  {`${row.base * row.gas / 1000000000} gwei`}
+                  {`${row.base * row.gasUsed} wei`}
                 </TableCell>
               </TableRow>
             ))}
