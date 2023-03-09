@@ -65,12 +65,7 @@ export default function CustomizedTablesForTransactions(props) {
             <StyledTableRow key={row.block}>
               <StyledTableCell component="th" scope="row">
                 <div style={{ display: 'flex', alignItems: 'center'}}>
-                  <div className='emoticon-container'>
-                      <img
-                          src="assets/icons/custom-pngs/transaction.png"
-                          alt="aasdfa"
-                      />
-                  </div>
+                  <Icon>text_snippet</Icon>
                   <div style={{ marginLeft: '1rem' }}>
                     <Button style={{color: '#5395c9'}}
                         component={Link}
@@ -88,7 +83,7 @@ export default function CustomizedTablesForTransactions(props) {
               <StyledTableCell align="left">
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <p style={{ marginRight: '0.5rem'}}>From </p>
+                    <p className="font-16" style={{ marginRight: '0.5rem'}}>From </p>
                     <Button
                         component={Link}
                         to={`/address/${row.from}`}
@@ -96,11 +91,11 @@ export default function CustomizedTablesForTransactions(props) {
                         variant="contained"
                         color="primary"
                         >
-                        <span className="block-selector hidden sm:flex">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from)}`}</span>
+                        <span className="block-selector hidden sm:flex font-16">{`${row.from.slice(0, 5)}...${row.from.slice(row.from.length - 3, row.from)}`}</span>
                     </Button>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <p style={{marginRight: '0.5rem'}}>To</p>
+                    <p className="font-11" style={{marginRight: '0.5rem'}}>To</p>
                     <Button style={{color: '#5395c9', marginLeft: '0.5rem'}}
                       component={Link}
                       to={`/address/${row.to}`}
@@ -108,12 +103,12 @@ export default function CustomizedTablesForTransactions(props) {
                       variant="contained"
                       color="primary"
                     >
-                      {`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to)}`}
+                      <span className='font-11'>{`${row.to.slice(0, 5)}...${row.to.slice(row.to.length - 3, row.to)}`}</span>
                     </Button>
                   </div>                  
                 </div>
               </StyledTableCell>
-              <StyledTableCell align="right">{row.value / 1000000000000000000} ether</StyledTableCell>
+              <StyledTableCell align="right">{row.value / 1000000000000000000} ETH</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -65,13 +65,7 @@ export default function CustomizedTablesForBlocks(props) {
             <StyledTableRow key={row.block}>
               <StyledTableCell component="th" scope="row">
                 <div style={{ display: 'flex', alignItems: 'center'}}>
-                  <Icon>search</Icon>
-                  <div className='emoticon-container'>
-                      <img
-                          src="assets/icons/custom-pngs/block.png"
-                          alt="aasdfa"
-                      />
-                  </div>
+                  <Icon>panorama_wide_angle</Icon>
                   <div style={{ marginLeft: '1rem' }}>
                     <Button
                         component={Link}
@@ -90,7 +84,7 @@ export default function CustomizedTablesForBlocks(props) {
               <StyledTableCell align="left">
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <p>Block Hash:</p>
+                    <p className='font-16'>Block Hash:</p>
                     <Button
                       component={Link}
                       to={`/blocks/${row.block}`}
@@ -99,24 +93,16 @@ export default function CustomizedTablesForBlocks(props) {
                       color="primary"
                       style={{color: '#5395c9', marginLeft: '0.5rem'}}
                     >
-                      {`${row.blockHash.slice(0, 5)}...${row.blockHash.slice(row.blockHash.length - 3, row.blockHash)}`}
+                      <span className="hidden sm:flex font-16">{`${row.blockHash.slice(0, 5)}...${row.blockHash.slice(row.blockHash.length - 3, row.blockHash)}`}</span>
                     </Button>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center'}}>
-                    <Button style={{color: '#5395c9', marginRight: '0.5rem'}}
-                      component={Link}
-                      to={`/explorer`}
-                      className="block-selector"
-                      variant="contained"
-                      color="primary"
-                    >
-                      {row.transactions}
-                    </Button>
-                    <span>txns in 3 secs</span>
+                    <span className='block-selector mr-1 font-11 txn-line-height'>{row.transactions}</span>
+                    <span className='font-11'>txns in 3 secs</span>
                   </div>                  
                 </div>
               </StyledTableCell>
-              <StyledTableCell align="right">{row.reward / 1000000000} gwei</StyledTableCell>
+              <StyledTableCell align="right">{row.reward / 1000000000} Gwei</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -73,3 +73,11 @@
 .justify-item-start {
     justify-content: start;
 }
+
+.mr-1 {
+    margin-right: 0.25rem;
+}
+
+.txn-line-height {
+    line-height: 1.75;
+}
