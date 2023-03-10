@@ -15,6 +15,7 @@ import api from "../../../utils/api.js";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import FuseLoading from "@fuse/core/FuseLoading";
+import CustomParams from "./components/CustomParams";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,6 +53,7 @@ const formatDate = (unix_timestamp) => {
 export default function TransactionDetail(props) {
   const classes = useStyles();
   const txhash = props.match.params.transactionId;
+  const [isDecode, setDecode] = useState(false);
   const [txDetail, setTxDetail] = useState({
     gasLimitAndUsage: {},
     gasFees: {},
@@ -59,6 +61,10 @@ export default function TransactionDetail(props) {
     burntFeeAndSavingFee: {},
   });
   const [isLoaded, setIsLoaded] = useState(0);
+
+  function handleInputData(value) {
+    setDecode(!value);
+  }
 
   useEffect(async () => {
     const responseData = (await api.get(`/getTransaction/${txhash}`));
@@ -271,14 +277,36 @@ export default function TransactionDetail(props) {
               <ListItem>
                 <div className="item-box">
                   <Icon className="mr-1">help_outline</Icon>
-                  Input Data:
+                  <Button style={{color: '#5395c9', marginLeft: '0.5rem'}}
+                    component={Link}
+                    className="block-selector"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleInputData(isDecode)}
+                  >
+                    {
+                      isDecode == false ?
+                        <span>Input Data: </span>
+                      :
+                        <span>Decode Data: </span>
+                    }
+                  </Button>
                 </div>
                 <div className="space"></div>
-                <textarea
-                  style={{background: 'black', width: '100%'}}
-                  className="w-100 h-100"
-                  rows={20}
-                  value={txDetail.inputData} disabled></textarea>
+                {
+                  isDecode == false ?
+                  <textarea
+                    style={{background: 'black', width: '100%'}}
+                    className="w-100 h-100"
+                    rows={20}
+                    value={txDetail.inputData} disabled></textarea>
+                  :
+                  <div style={{background: 'black', width: '100%'}}>
+                    <p style={{ padding: '1rem'}}><strong>Function:</strong> {txDetail.decodedResult.name}</p>
+                    <CustomParams params = {txDetail.decodedResult.params} />
+                  </div>
+                }
+                
               </ListItem>
               {/* <ListItem>
                 <div className="item-box">More Details:</div>
