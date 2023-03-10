@@ -198,12 +198,11 @@ export default function CustomTokenTransfers(props) {
               <TableCell style={{ width: 80 }} align="left">
                 <Button
                     component={Link}
-                    to={`/transactions/${row.name}`}
                     className="block-selector"
                     variant="contained"
                     color="primary"
                     >
-                    <span className="block-selector hidden sm:flex">{`${row.name.slice(0, 5)}...${row.name.slice(row.name.length - 3, row.name.length)}`}</span>
+                    <span className="block-selector hidden sm:flex">{`${row.name}`}</span>
                 </Button>
               </TableCell>
               <TableCell style={{ width: 100 }} align="left">
