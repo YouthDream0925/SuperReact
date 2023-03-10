@@ -21,6 +21,7 @@ function Element(props) {
                 <Button
                     component={Link}
                     to={`${data.link}`}
+                    style={{justifyContent: 'start'}}
                     className="block-selector"
                     variant="contained"
                     color="primary"
