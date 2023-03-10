@@ -163,6 +163,7 @@ export default function CustomPaginationActionsTable() {
   const [txns, setTxns] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [isLoaded, setIsLoaded] = useState(0);
 
   useEffect(async () => {
     const total_transactions = (await api.get(`/getTransactionCount`)).data.responseData;
@@ -195,14 +196,17 @@ export default function CustomPaginationActionsTable() {
       }
       setTxns(rowsData);
       setTotalTxns(total_transactions);
+      setIsLoaded(1);
     }
   }, [page, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
+    setIsLoaded(0);
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
+    setIsLoaded(0);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -219,6 +223,7 @@ export default function CustomPaginationActionsTable() {
 
   return useMemo(() => (
     <>
+    
       <TableContainer component={Paper} style={{ borderRadius: '0'}}>
         <Table className={classes.table} aria-label="custom pagination table">
           <TableHead>
@@ -234,6 +239,7 @@ export default function CustomPaginationActionsTable() {
               ))}
             </TableRow>
           </TableHead>
+          {isLoaded == 1 ?
           <TableBody>
             {(txns).map((row) => (
               <TableRow key={row.hash}>
@@ -296,6 +302,8 @@ export default function CustomPaginationActionsTable() {
               </TableRow>
             ))}
           </TableBody>
+          :<></>
+          }
           <TableFooter>
             <TableRow>
               <TablePagination
@@ -317,5 +325,5 @@ export default function CustomPaginationActionsTable() {
         </Table>
       </TableContainer>
     </>
-  ),[txns, totalTxns]);
+  ),[txns, totalTxns, isLoaded]);
 }
