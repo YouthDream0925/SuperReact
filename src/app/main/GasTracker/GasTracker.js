@@ -6,6 +6,7 @@ import {ethers} from "ethers";
 import Tracker from './components/Tracker';
 import { makeStyles } from '@material-ui/core/styles';
 import Widget1 from './widgets/Widget1';
+import FuseLoading from '@fuse/core/FuseLoading';
 
 const useStyles = makeStyles({
     root: {
@@ -271,6 +272,10 @@ export default function GasTracker() {
 
     return (
         <>
+          {
+            isLoaded == 0 ?
+            <FuseLoading />
+            :
             <div className='gas-tracker'>
                 {
                     data.map((element) => (
@@ -278,14 +283,15 @@ export default function GasTracker() {
                     ))
                 }
             </div> 
-            <div style={{padding: '2rem'}}>
-                {
-                    isLoaded == 1 ?
-                    <Widget1 data={widget} />
-                    :
-                    <div></div>
-                }
-            </div>
+          }
+          <div style={{padding: '2rem'}}>
+            {
+              isLoaded == 1 ?
+              <Widget1 data={widget} />
+              :
+              <></>
+            }
+          </div>
         </>
     );
 }

@@ -116,7 +116,7 @@ export default function TransactionDetail(props) {
                     <Icon className="icon-font-size">schedule</Icon>
                   </IconButton>
                   <Button
-                    style={{ color: "#5395c9", marginLeft: "0.5rem" }}
+                    style={{ color: "#5395c9", marginLeft: "0.5rem", justifyContent: 'start' }}
                     component={Link}
                     to={`/blocks/${txDetail.block}`}
                     className="block-selector"
@@ -272,7 +272,11 @@ export default function TransactionDetail(props) {
                   Input Data:
                 </div>
                 <div className="space"></div>
-                <div className="item-box">{txDetail.inputData}</div>
+                <textarea
+                  style={{background: 'black', width: '100%'}}
+                  className="w-100 h-100"
+                  rows={20}
+                  value={txDetail.inputData} disabled></textarea>
               </ListItem>
               {/* <ListItem>
                 <div className="item-box">More Details:</div>

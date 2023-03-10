@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import Input from '@material-ui/core/Input';
+import FuseLoading from '@fuse/core/FuseLoading';
 import { ThemeProvider, useTheme } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
 import Paper from '@material-ui/core/Paper';
@@ -199,7 +200,7 @@ export default function Explorer() {
                     }
                 </div>
                 :
-                <></>
+                <FuseLoading />
             }
             {
                 isLoaded == 1 ?

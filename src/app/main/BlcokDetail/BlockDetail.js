@@ -82,7 +82,7 @@ export default function BlockDetail(props) {
                 console.log(temp)
                 setIsLoaded(2);
             } else{
-                temp.data.extraData = temp.data.extraData.slice(0, 100) + '...';
+                // temp.data.extraData = temp.data.extraData.slice(0, 100) + '...';
                 setBlock(temp.data);
                 setUsed(temp.data.gasUsed.used);
                 setPercentage(temp.data.gasUsed.percentage);
@@ -109,6 +109,8 @@ export default function BlockDetail(props) {
         if(block.blockHeight < lastConfirmedBlock) {
             history.push(`/blocks/${block.blockHeight+1}`);
             setCurrentBlock(block.blockHeight+1);
+        } else {
+            setIsLoaded(1);
         }
     }
 
@@ -262,10 +264,10 @@ export default function BlockDetail(props) {
                             </div>
                             <div className='space'></div>
                             <textarea
-                                    style={{background: 'black', width: '100%'}}
-                                    className="w-100 h-100"
-                                    rows={2}
-                                    value={block.extraData} disabled></textarea>
+                                style={{background: 'black', width: '100%'}}
+                                className="w-100 h-100"
+                                rows={2}
+                                value={block.extraData} disabled></textarea>
                         </ListItem>
                         <Divider />
                         <ListItem>
