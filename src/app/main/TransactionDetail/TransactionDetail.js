@@ -300,11 +300,13 @@ export default function TransactionDetail(props) {
                     className="w-100 h-100"
                     rows={20}
                     value={txDetail.inputData} disabled></textarea>
-                  :
+                  : txDetail.decodedResult !== undefined ?
                   <div style={{background: 'black', width: '100%'}}>
                     <p style={{ padding: '1rem'}}><strong>Function:</strong> {txDetail.decodedResult.name}</p>
                     <CustomParams params = {txDetail.decodedResult.params} />
                   </div>
+                  :
+                  <></>
                 }
                 
               </ListItem>
