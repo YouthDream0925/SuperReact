@@ -21,6 +21,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import api from "../../../../utils/api.js";
+import FuseLoading from '@fuse/core/FuseLoading';
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -164,6 +165,7 @@ export default function CustomPaginationActionsTable(props) {
   const [blocks, setBlocks] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [isLoaded, setIsLoaded] = useState(0);
 
   useEffect(async () => {
     const lastConfirmedBlockNumber = await api.get(`/getLastConfirmedBlockNumber`);
@@ -183,15 +185,18 @@ export default function CustomPaginationActionsTable(props) {
       }
       setBlocks(temp);
       setTotalBlocks(lastConfirmedBlockNumber.data.responseData + 1);
+      setIsLoaded(1);
     }
   },[props, page, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
+    setIsLoaded(0);
     setBlocks([]);
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
+    setIsLoaded(0);
     setBlocks([]);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -245,6 +250,7 @@ export default function CustomPaginationActionsTable(props) {
               ))}
             </TableRow>
           </TableHead>
+          {isLoaded == 1 ?
           <TableBody>
             {(blocks).map((row) => (
               <TableRow key={row.block}>
@@ -291,6 +297,15 @@ export default function CustomPaginationActionsTable(props) {
               </TableRow>
             ))}
           </TableBody>
+          :
+          <TableBody>
+            <TableRow>
+              <TableCell colSpan={8}>
+                <FuseLoading/>
+              </TableCell>              
+            </TableRow>            
+          </TableBody>    
+          }
           <TableFooter>
             <TableRow>
               <TablePagination
@@ -312,5 +327,5 @@ export default function CustomPaginationActionsTable(props) {
         </Table>
       </TableContainer>
     </>
-  ),[blocks, totalBlocks]);
+  ),[blocks, totalBlocks, isLoaded]);
 }

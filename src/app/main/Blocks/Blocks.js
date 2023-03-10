@@ -4,6 +4,7 @@ import Element from '../Explorer/components/Element';
 import CustomPaginationActionsTable from './components/CustomPaginationActionsTable';
 import api from "../../../utils/api.js";
 import {ethers} from "ethers";
+import FuseLoading from '@fuse/core/FuseLoading';
 
 export default function Blocks() {
     const [data, setData] = useState([]);
@@ -52,19 +53,19 @@ export default function Blocks() {
             {
                 isLoaded == 1 ?
                 <>
-                <div className='blocks-header'>
-                    {
-                        data.map((element) => (
-                            <Element data = {element} />
-                        ))
-                    }
-                </div>
-                <div className="blocks-body">
-                    <CustomPaginationActionsTable data={data}/>
-                </div>
+                    <div className='blocks-header'>
+                        {
+                            data.map((element) => (
+                                <Element data = {element} />
+                            ))
+                        }
+                    </div>
+                    <div className="blocks-body">
+                        <CustomPaginationActionsTable data={data}/>
+                    </div>
                 </>
                 :
-                <></>
+                <FuseLoading />
             }
             </>
         ),

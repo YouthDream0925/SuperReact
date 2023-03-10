@@ -23,6 +23,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import api from "../../../../utils/api.js";
 import {ethers} from "ethers";
+import FuseLoading from '@fuse/core/FuseLoading/FuseLoading.js';
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -303,7 +304,14 @@ export default function CustomPaginationActionsTable() {
               </TableRow>
             ))}
           </TableBody>
-          :<></>
+          :
+          <TableBody>
+            <TableRow>
+              <TableCell colSpan={8}>
+                <FuseLoading/>
+              </TableCell>              
+            </TableRow>            
+          </TableBody>          
           }
           <TableFooter>
             <TableRow>
