@@ -155,7 +155,6 @@ export default function Address(props) {
                   {address.type == 'address' ? 'Address' : 'Contract' } <span className='address-has'>{hash}</span>
                   <div style={{marginLeft: '1rem'}}>
                       <IconButton className="w-40 h-40"><Icon>copy</Icon></IconButton>
-                      <IconButton className="w-40 h-40"><Icon>border_all</Icon></IconButton>
                   </div>
               </div>
           </div>
@@ -168,16 +167,16 @@ export default function Address(props) {
             <Card className={classes.root} style={{ marginRight: '1rem' }} variant="outlined">
               <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  Overview
+                  <strong>Overview</strong>
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                  ETH BALANCE
+                  <strong>ETH BALANCE</strong>
                 </Typography>
                 <Typography className="address-container" variant="body2" component="p">
-                  <Icon className='icon-size'>copy</Icon> {`${address.ethBalance / 1000000000000000000}`} ETH
+                  {`${address.ethBalance / 1000000000000000000}`} ETH
                 </Typography>
                 <Typography style={{marginTop: '1rem'}}className={classes.title} color="textSecondary" gutterBottom>
-                  NONCE
+                  <strong>NONCE</strong>
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
                   {address.nonce}
@@ -192,16 +191,22 @@ export default function Address(props) {
               <Card className={classes.root} style={{ marginLeft: '1rem' }} variant="outlined">
                 <CardContent>
                   <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    CONTRACT CREATOR
+                    <strong>CONTRACT CREATOR</strong>
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
                     {address.creator}
                   </Typography>
                   <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    TOKEN TRACKER
+                    <strong>TOKEN TRACKER</strong>
                   </Typography>
                   <Typography className="address-container" variant="body2" component="p">
-                    <Icon className='icon-size'>copy</Icon> GCE (GCE)
+                    {`${address.name} (${address.symbol})`}
+                  </Typography>
+                  <Typography style={{marginTop: '1rem'}} className={classes.title} color="textSecondary" gutterBottom>
+                    <strong>DECIMALS</strong>
+                  </Typography>
+                  <Typography className="address-container" variant="body2" component="p">
+                    {`${address.decimals}`}
                   </Typography>
                 </CardContent>
               </Card>
@@ -223,7 +228,7 @@ export default function Address(props) {
                       <MenuItem value={0}>Please select token holders</MenuItem>
                       {
                         (address.tokenholdes).map((element) => (
-                          <MenuItem value={`${element.address}`}>{`${element.name}(${element.symbol})`} - {`${element.value / 1000000000000000000 } ETH`}</MenuItem>
+                          <MenuItem value={`${element.address}`}>{`${element.name}(${element.symbol})`} - {`${element.value / Math.pow(10, element.decimals) } ${element.symbol}`}</MenuItem>
                         ))
                       }              
                     </Select>                
@@ -255,14 +260,15 @@ export default function Address(props) {
                   onClick={showContracts}
                 />
                 :
-                <Chip
-                  size="small"
-                  label="Token Transfers"
-                  color="primary"
-                  clickable
-                  onClick={showTockenTransfers}
-                />
+                <></>
               }
+              <Chip
+                size="small"
+                label="Token Transfers"
+                color="primary"
+                clickable
+                onClick={showTockenTransfers}
+              />
             </div>
             :
             <></>

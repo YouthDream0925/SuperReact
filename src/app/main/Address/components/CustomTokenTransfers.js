@@ -89,11 +89,17 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, symbol, from, to, value) {
-  return { name, symbol, from, to, value };
+function createData(hash, name, symbol, from, to, value) {
+  return { hash, name, symbol, from, to, value };
 }
 
 const columns = [
+  {
+    id: 'hash', 
+    label: 'Hash', 
+    minWidth: 160,
+    align: 'left',    
+  },
   { 
     id: 'name', 
     label: 'Name', 
@@ -109,7 +115,7 @@ const columns = [
   {
     id: 'from',
     label: 'From',
-    minWidth: 160,
+    minWidth: 100,
     align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
@@ -151,6 +157,7 @@ export default function CustomTokenTransfers(props) {
     let method;
     method = "Transfer";
     rowsData.push(createData(
+      tokentransfers[i].hash,
       tokentransfers[i].name,
       tokentransfers[i].symbol,
       tokentransfers[i].from,
@@ -194,7 +201,18 @@ export default function CustomTokenTransfers(props) {
             ? rowsData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rowsData
           ).map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={row.hash}>
+              <TableCell style={{ width: 160 }} align="left">
+                <Button
+                    component={Link}
+                    className="block-selector"
+                    variant="contained"
+                    color="primary"
+                    to={`/transactions/${row.hash}`}
+                    >
+                    <span className="block-selector hidden sm:flex">{`${row.hash.slice(0, 5)}...${row.hash.slice(row.hash.length - 3, row.hash.length)}`}</span>
+                </Button>
+              </TableCell>
               <TableCell style={{ width: 80 }} align="left">
                 <Button
                     component={Link}

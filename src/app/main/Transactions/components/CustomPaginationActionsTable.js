@@ -261,6 +261,7 @@ export default function CustomPaginationActionsTable() {
                 <Button
                   component={Link}
                   to={`/blocks/${row.block}`}
+                  style={{justifyContent: 'start'}}
                   className="block-selector"
                   variant="contained"
                   color="primary"

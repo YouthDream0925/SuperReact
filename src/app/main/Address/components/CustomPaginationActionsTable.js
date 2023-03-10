@@ -160,6 +160,27 @@ const useStyles2 = makeStyles({
   },
 });
 
+function padTo2Digits(num) {
+  return num.toString().padStart(2, "0");
+}
+
+const formatDate = (unix_timestamp) => {
+  var date = new Date(unix_timestamp * 1000);
+  return (
+      [
+      date.getFullYear(),
+      padTo2Digits(date.getMonth() + 1),
+      padTo2Digits(date.getDate()),
+      ].join("-") +
+      " " +
+      [
+      padTo2Digits(date.getHours()),
+      padTo2Digits(date.getMinutes()),
+      padTo2Digits(date.getSeconds()),
+      ].join(":")
+  );
+};
+
 export default function CustomPaginationActionsTable(props) {
   const history = useHistory();
   const classes = useStyles2();
@@ -175,7 +196,7 @@ export default function CustomPaginationActionsTable(props) {
       txns[i].hash,
       txns[i].method,
       txns[i].blockNumber,
-      txns[i].age,
+      formatDate(txns[i].age),
       txns[i].from,
       txns[i].to == null ? txns[i].contractAddress : txns[i].to,
       txns[i].value,

@@ -25,24 +25,24 @@ const useStyles = makeStyles((theme) => ({
 
 function padTo2Digits(num) {
     return num.toString().padStart(2, "0");
-  }
-  
-  const formatDate = (unix_timestamp) => {
+}
+
+const formatDate = (unix_timestamp) => {
     var date = new Date(unix_timestamp * 1000);
     return (
-      [
+        [
         date.getFullYear(),
         padTo2Digits(date.getMonth() + 1),
         padTo2Digits(date.getDate()),
-      ].join("-") +
-      " " +
-      [
+        ].join("-") +
+        " " +
+        [
         padTo2Digits(date.getHours()),
         padTo2Digits(date.getMinutes()),
         padTo2Digits(date.getSeconds()),
-      ].join(":")
+        ].join(":")
     );
-  };
+};
 
 export default function BlockDetail(props) {
     let history = useHistory();
@@ -64,7 +64,7 @@ export default function BlockDetail(props) {
             console.log(temp)
             setIsLoaded(2);
         } else{
-            temp.data.extraData = temp.data.extraData.slice(0, 100) + '...';
+            // temp.data.extraData = temp.data.extraData.slice(0, 100) + '...';
             setBlock(temp.data);
             setUsed(temp.data.gasUsed.used);
             setPercentage(temp.data.gasUsed.percentage);
@@ -261,9 +261,11 @@ export default function BlockDetail(props) {
                                 Extra Data:
                             </div>
                             <div className='space'></div>
-                            <div className='item-box'>
-                                {block.extraData}
-                            </div>
+                            <textarea
+                                    style={{background: 'black', width: '100%'}}
+                                    className="w-100 h-100"
+                                    rows={2}
+                                    value={block.extraData} disabled></textarea>
                         </ListItem>
                         <Divider />
                         <ListItem>

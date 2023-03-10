@@ -24,19 +24,23 @@ export default function CustomPaginationActionsTable(props) {
             <React.Fragment>
                 <CssBaseline />
                 <Container fixed>
-                    <Typography component="div" className="code-border" style={{ backgroundColor: '#1e2125', height: '100%', padding: '3rem' }}>
-                        <div className='code-title'>CODE</div>
-                        {code}
-                    </Typography>
+                    <div className='code-title'>CODE</div>
+                    <textarea
+                        style={{background: 'black', width: '100%'}}
+                        className="w-100 h-100"
+                        rows={20}
+                        value={code}></textarea>
                 </Container>
             </React.Fragment>
             <React.Fragment>
                 <CssBaseline />
                 <Container fixed>
-                    <Typography component="div" style={{ backgroundColor: '#1e2125', height: '100%', padding: '3rem' }}>
-                        <div className='code-title'>ABI</div>
-                        {api}
-                    </Typography>
+                    <div className='code-title'>ABI</div>
+                    <textarea
+                        style={{background: 'black', width: '100%'}}
+                        className="w-100 h-100"
+                        rows={20}
+                        value={api}></textarea>
                 </Container>
             </React.Fragment>
         </>
