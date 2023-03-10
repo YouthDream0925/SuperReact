@@ -252,7 +252,15 @@ export default function CustomPaginationActionsTable() {
                   {row.method}
                 </TableCell>
                 <TableCell style={{ width: 40 }} align="left">
-                  <span className="highlight-color">{row.block}</span>
+                <Button
+                  component={Link}
+                  to={`/blocks/${row.block}`}
+                  className="block-selector"
+                  variant="contained"
+                  color="primary"
+                >
+                  <span className="block-selector hidden sm:flex">{row.block}</span>
+                </Button>
                 </TableCell>
                 {/* <TableCell style={{ width: 180 }} align="left">
                   {row.age}
