@@ -14,6 +14,7 @@ import './BlockDetail.css';
 import {useHistory} from 'react-router-dom';
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import FuseLoading from '@fuse/core/FuseLoading/FuseLoading.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -117,200 +118,206 @@ export default function BlockDetail(props) {
     return useMemo(
         () => (
             <>
-            <div className='page-header'>
-                <strong>Block</strong> <span className='block-id' style={{marginLeft: '1rem'}}>{isLoaded == 1? block.blockHeight : ""}</span>
-            </div>
-            <div className='page-body'>
-                {
+            {
+                isLoaded == 1 ?
+                <div className='page-header'>
+                    <strong>Block</strong> <span className='block-id' style={{marginLeft: '1rem'}}>{block.blockHeight}</span>
+                </div>
+                :
+                <></>
+            }
+            {
                 isLoaded == 1? 
-                <div className={classes.root}>
-                    <List component="nav" aria-label="main mailbox folders">
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Block Height:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.blockHeight}
-                                <div style={{marginLeft: '1rem'}}>
-                                    <IconButton className="w-10 h-10" onClick={() => leftArrowClick()}><Icon className='icon-font-size'>arrow_back_ios</Icon></IconButton>
-                                    <IconButton className="w-10 h-10" onClick={() => rightArrowClick()}><Icon className='icon-font-size'>arrow_forward_ios</Icon></IconButton>
+                <div className='page-body'>
+                    <div className={classes.root}>
+                        <List component="nav" aria-label="main mailbox folders">
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Block Height:
                                 </div>
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Status:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                <IconButton className="w-10 h-10"><Icon className='icon-font-size'>alarm_on</Icon></IconButton>
-                                {block.status == 0 ? "Unfinalized" : "Safe"}
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Timestamp:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                <IconButton className="w-10 h-10"><Icon className='icon-font-size'>schedule</Icon></IconButton>
-                                {formatDate(block.timestamp)}
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Proposed:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                Block proposed on slot {slot}, epoch {epoch}
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Transactions:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {transactionCount} transactions in this block
-                            </div>
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <List component="nav" aria-label="main mailbox folders">
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Block Reward:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.blockReward / 1000000000} Gwei
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Total Difficulty:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {parseInt(block.totalDifficulty)}
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Size:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.size} bytes
-                            </div>
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <List component="nav" aria-label="main mailbox folders">
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Gas Used:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {used} - {percentage} %
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Gas Limit: 
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {Number(block.gasLimit).toLocaleString()}
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Base Fee Per Gas:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.baseFeePerGas} wei
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Burnt Fees:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.burntFee / 1000000000} gwei
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Extra Data:
-                            </div>
-                            <div className='space'></div>
-                            <textarea
-                                style={{background: 'black', width: '100%'}}
-                                className="w-100 h-100"
-                                rows={2}
-                                value={block.extraData} disabled></textarea>
-                        </ListItem>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.blockHeight}
+                                    <div style={{marginLeft: '1rem'}}>
+                                        <IconButton className="w-10 h-10" onClick={() => leftArrowClick()}><Icon className='icon-font-size'>arrow_back_ios</Icon></IconButton>
+                                        <IconButton className="w-10 h-10" onClick={() => rightArrowClick()}><Icon className='icon-font-size'>arrow_forward_ios</Icon></IconButton>
+                                    </div>
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Status:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    <IconButton className="w-10 h-10"><Icon className='icon-font-size'>alarm_on</Icon></IconButton>
+                                    {block.status == 0 ? "Unfinalized" : "Safe"}
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Timestamp:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    <IconButton className="w-10 h-10"><Icon className='icon-font-size'>schedule</Icon></IconButton>
+                                    {formatDate(block.timestamp)}
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Proposed:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    Block proposed on slot {slot}, epoch {epoch}
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Transactions:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {transactionCount} transactions in this block
+                                </div>
+                            </ListItem>
+                        </List>
                         <Divider />
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Hash:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.hash}
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                Parent Hash:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.parentHash}
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>help_outline</Icon>
-                                StateRoot:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                {block.stateRoot}
-                            </div>
-                        </ListItem>
-                        {/* <ListItem>
-                            <div className='item-box'>
-                                More Details:
-                            </div>
-                            <div className='space'></div>
-                            <div className='item-box'>
-                                <Icon className='mr-1'>horizontal_rule</Icon>
-                                Click to show less
-                            </div>
-                        </ListItem> */}
-                    </List>
+                        <List component="nav" aria-label="main mailbox folders">
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Block Reward:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.blockReward / 1000000000} Gwei
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Total Difficulty:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {parseInt(block.totalDifficulty)}
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Size:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.size} bytes
+                                </div>
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <List component="nav" aria-label="main mailbox folders">
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Gas Used:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {used} - {percentage} %
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Gas Limit: 
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {Number(block.gasLimit).toLocaleString()}
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Base Fee Per Gas:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.baseFeePerGas} wei
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Burnt Fees:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.burntFee / 1000000000} gwei
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Extra Data:
+                                </div>
+                                <div className='space'></div>
+                                <textarea
+                                    style={{background: 'black', width: '100%'}}
+                                    className="w-100 h-100"
+                                    rows={2}
+                                    value={block.extraData} disabled></textarea>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Hash:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.hash}
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    Parent Hash:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.parentHash}
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>help_outline</Icon>
+                                    StateRoot:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    {block.stateRoot}
+                                </div>
+                            </ListItem>
+                            {/* <ListItem>
+                                <div className='item-box'>
+                                    More Details:
+                                </div>
+                                <div className='space'></div>
+                                <div className='item-box'>
+                                    <Icon className='mr-1'>horizontal_rule</Icon>
+                                    Click to show less
+                                </div>
+                            </ListItem> */}
+                        </List>
+                    </div>
                 </div>
                 : isLoaded == 2?
                     <Button className="item-box"
@@ -319,8 +326,9 @@ export default function BlockDetail(props) {
                     >
                     <strong>Invalid block number!</strong>
                     </Button>
-                :<></>}
-            </div>
+                :<FuseLoading/>
+            }
+            
         </>
         ),[block, used, percentage, slot, epoch, transactionCount, isLoaded]
     );

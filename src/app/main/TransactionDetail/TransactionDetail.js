@@ -14,6 +14,7 @@ import "./TransactionDetail.css";
 import api from "../../../utils/api.js";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import FuseLoading from "@fuse/core/FuseLoading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,25 +62,26 @@ export default function TransactionDetail(props) {
 
   useEffect(async () => {
     const responseData = (await api.get(`/getTransaction/${txhash}`));
-    if(responseData.status == 500) {
-        console.log(responseData);
-        setIsLoaded(2);
+    const tx = responseData.data;
+    if(tx.message !== undefined) {
+      console.log(responseData);
+      setIsLoaded(2);
     } else {
-        const tx = responseData.data;
-        setTxDetail(tx);
-        setIsLoaded(1);
+      setTxDetail(tx);
+      setIsLoaded(1);
     }
   }, []);
 
   return (
     <>
-      <div className="page-header d-flex">
-        <strong>Transaction Details</strong>
-        {/* <div style={{marginLeft: '1rem'}}>
-                <IconButton className="w-10 h-10"><Icon className='icon-font-size'>arrow_back_ios</Icon></IconButton>
-                <IconButton className="w-10 h-10"><Icon className='icon-font-size'>arrow_forward_ios</Icon></IconButton>
-            </div> */}
-      </div>
+      {
+        isLoaded == 0 ?
+        <></>
+        :
+        <div className="page-header d-flex">
+          <strong>Transaction Details</strong>
+        </div>
+      }
       {isLoaded == 1 ? (
         <div className="page-body">
           <div className={classes.root}>
@@ -299,7 +301,7 @@ export default function TransactionDetail(props) {
             </Button>
         </div>
       :(
-        <></>
+        <FuseLoading />
       )}
     </>
   );
