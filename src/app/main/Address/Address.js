@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
@@ -21,6 +22,7 @@ import { useEffect, useState, useMemo } from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import api from "../../../utils/api.js";
 import {ethers} from "ethers";
+import FuseLoading from '@fuse/core/FuseLoading';
 import './Address.css';
 
 const BootstrapInput = withStyles((theme) => ({
@@ -140,8 +142,12 @@ export default function Address(props) {
   useEffect(async () => {
     const temp = await api.get(`/getAddress/${hash}`);
     console.log(temp);
-    setAddress(temp.data);
-    setIsLoaded(1);
+    if(temp.data.message !== undefined) {
+      setIsLoaded(2);
+    } else {
+      setAddress(temp.data);
+      setIsLoaded(1);
+    }
 	}, [age]);  
 
   return useMemo(
@@ -158,8 +164,17 @@ export default function Address(props) {
                   </div>
               </div>
           </div>
+          : isLoaded == 2 ?
+          <div className="page-body" style={{marginTop: '5rem'}}>
+            <Button className="item-box"
+                component={Link}
+                to={`/explorer`}
+            >
+                <strong>Invalid address!</strong>
+            </Button>
+          </div>
           :
-          <></>
+          <FuseLoading/>
         }        
         <div className="address-info">
           {
@@ -183,6 +198,8 @@ export default function Address(props) {
                 </Typography>
               </CardContent>
             </Card>
+            : isLoaded == 2 ?
+            <></>
             :
             <></>
           }          
