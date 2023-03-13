@@ -298,7 +298,7 @@ export default function TransactionDetail(props) {
                   <textarea
                     style={{background: 'black', width: '100%'}}
                     className="w-100 h-100"
-                    rows={20}
+                    rows={4}
                     value={txDetail.inputData} disabled></textarea>
                   : txDetail.decodedResult !== undefined ?
                   <div style={{background: 'black', width: '100%'}}>
