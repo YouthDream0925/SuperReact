@@ -64,7 +64,6 @@ function ToolbarLayout1(props) {
 
             <UserWallet />
 
-            <UserMenu />
           </div>
 
           {config.navbar.display && config.navbar.position === 'right' && (

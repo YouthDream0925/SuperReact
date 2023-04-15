@@ -64,7 +64,7 @@ function NavbarStyle1Content(props) {
         className={clsx(classes.content)}
         option={{ suppressScrollX: true, wheelPropagation: false }}
       >
-        <UserNavbarHeader />        
+        {/* <UserNavbarHeader />         */}
         <Navigation layout="vertical" />
       </FuseScrollbars>
     </div>
